@@ -31,6 +31,7 @@ public:
 	StateMachineClass();
 	MachineState UpdateState(char currentCharacter, TokenType&
 		correspondingTokenType);
+	MachineState getCurrentState();
 
 private:
 	MachineState mCurrentState;

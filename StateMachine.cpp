@@ -172,3 +172,4 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 	mCurrentState = mLegalMoves[mCurrentState][charType];
 	return mCurrentState;
 }
+
