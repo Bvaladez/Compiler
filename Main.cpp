@@ -2,11 +2,13 @@
 #include "Scanner.h"
 #include "StateMachine.h"
 #include "Token.h"
+#include "debug.h"
 
 #include <string>
 #include <iostream>
 
 int main() {
+	MSG("Compiling");
 	ScannerClass scanner("test.txt");
 
 

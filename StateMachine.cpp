@@ -1,4 +1,5 @@
 #include "StateMachine.h"
+#include "debug.h"
 
 StateMachineClass::StateMachineClass() {
 	

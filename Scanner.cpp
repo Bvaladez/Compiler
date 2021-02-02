@@ -1,12 +1,15 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+
 #include "Scanner.h"
 #include "StateMachine.h"
 #include "Token.h"
+#include "debug.h"
 
 
 ScannerClass::ScannerClass(std::string inputFileName){
+	MSG("Scanner Starting...");
 	mFin.open(inputFileName.c_str(), std::ios::binary);
 
 	if (!mFin.is_open()) {
@@ -18,7 +21,6 @@ ScannerClass::ScannerClass(std::string inputFileName){
 ScannerClass::~ScannerClass() {
 	mFin.close();
 }
-
 
 TokenClass ScannerClass::GetNextToken() {
 	std::string s;
@@ -44,8 +46,10 @@ TokenClass ScannerClass::GetNextToken() {
 		std::stringstream ss;
 		ss << c;
 		ss >> s;
-		TokenClass t(tokenType, s);
 		// we may not to make this a token class item 
+		// this is creating a token object of a back token 
+		//
+		TokenClass t(tokenType, s);
 		return t;
 	}
 
