@@ -21,29 +21,40 @@ ScannerClass::~ScannerClass() {
 
 
 TokenClass ScannerClass::GetNextToken() {
-	std::stringstream ss;
+	std::string s;
 	char c;
 	TokenType tokenType;
 	StateMachineClass stateMachine;
 	MachineState currentState;
-
+	// NEED TO HANDLE THE START STATE
 	do{
 		c = mFin.get();
-		ss << c;
+		s += c;
 		currentState = stateMachine.UpdateState(c, tokenType);
-		if (tokenType == TokenType::BAD_TOKEN) {
-			std::cout << gTokenTypeNames[tokenType] << " <-- is not a legal token in current state." <<  std::endl;
-			// quit
+
+		if (currentState == MachineState::START_STATE) {
+			s = "";
 		}
+
 	} while (currentState != MachineState::CANTMOVE_STATE);
 
-	std::string lexeme = ss.str();
+	if (tokenType == TokenType::BAD_TOKEN) {
+		std::cout << c << " <-- is not a legal token in current state." <<  std::endl;
+		std::string s;
+		std::stringstream ss;
+		ss << c;
+		ss >> s;
+		TokenClass t(tokenType, s);
+		// we may not to make this a token class item 
+		return t;
+	}
+
+	std::string lexeme = s;
 	// the last char grabbed isnt actually used in this toke
 	// we must kick it off the lexeme and take unget it from the read stream
-	lexeme = lexeme.substr(0, lexeme.size() - 1);
+	lexeme.pop_back();
 	mFin.unget();
 	
 	TokenClass tokenClass(tokenType, lexeme);
-	tokenClass.CheckReserved();
 	return tokenClass;
 }

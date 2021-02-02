@@ -8,7 +8,6 @@ TokenClass::TokenClass(TokenType type, const std::string& lexeme) {
 	mLexeme = lexeme;
 	this->CheckReserved();
 }
-
 void TokenClass::CheckReserved() {
 	std::string lexeme = GetLexeme();
 	if (lexeme == "void") {

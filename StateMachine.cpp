@@ -6,7 +6,7 @@ StateMachineClass::StateMachineClass() {
 
 	// fill all space to be Illegal states then change all those that are legal
 	for (int i = 0; i < LAST_STATE; i++) {
-		for (int j = 0; j < LAST_CHAR; i++) {
+		for (int j = 0; j < LAST_CHAR; j++) {
 			mLegalMoves[i][j] = CANTMOVE_STATE;
 		}
 	}
@@ -156,8 +156,6 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = TIMES_CHAR;
 	if (currentCharacter == '/')
 		charType = DIVIDE_CHAR;
-	//if (currentCharacter == EOF)
-		//charType = ENDFILE_CHAR;
 	if (currentCharacter == ';')
 		charType = SEMICOLON_CHAR;
 	if (currentCharacter == '>')
@@ -166,7 +164,18 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = LESS_CHAR;
 	if (currentCharacter == '=')
 		charType = ASSIGNMENT_CHAR;
-	// first we set the referenced corresponding token type to know the last token
+	if (currentCharacter == '(')
+		charType = LPAREN_CHAR;
+	if (currentCharacter == ')')
+		charType = RPAREN_CHAR;
+	if (currentCharacter == '{')
+		charType = LCURLY_CHAR;
+	if (currentCharacter == '}')
+		charType = RCURLY_CHAR;
+	// eof char
+	if (currentCharacter == EOF)
+		charType = ENDFILE_CHAR;
+// first we set the referenced corresponding token type to know the last token
 	correspondingTokenType = mCorrespondingTokenTypes[mCurrentState];
 	// then we update the state with the new state
 	mCurrentState = mLegalMoves[mCurrentState][charType];
