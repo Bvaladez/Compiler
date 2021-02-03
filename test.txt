@@ -1,5 +1,7 @@
 void main(){
 	int sum;
+	// &
+	/* This is a comment */
 	sum = 35 + 400;
 	cout << sum;
 }

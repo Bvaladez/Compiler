@@ -14,6 +14,7 @@ StateMachineClass::StateMachineClass() {
 	
 	// WHITESPACE //
 	mLegalMoves[START_STATE][WHITESPACE_CHAR] = START_STATE;
+	mLegalMoves[START_STATE][NEWLINE_CHAR] = START_STATE;
 	
 	// IDENTIFIER STATES //
 	mLegalMoves[START_STATE][LETTER_CHAR] = IDENTIFIER_STATE;
@@ -173,6 +174,9 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = LCURLY_CHAR;
 	if (currentCharacter == '}')
 		charType = RCURLY_CHAR;
+	//with out newline char we get regular scanning but loose line comments
+	if (currentCharacter == '\n')
+		charType = NEWLINE_CHAR;
 	// eof char
 	if (currentCharacter == EOF)
 		charType = ENDFILE_CHAR;
