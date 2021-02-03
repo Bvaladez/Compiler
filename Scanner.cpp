@@ -10,11 +10,12 @@
 
 ScannerClass::ScannerClass(std::string inputFileName){
 	MSG("Scanner Starting...");
+	mLineNumber = 1;
 	mFin.open(inputFileName.c_str(), std::ios::binary);
 
 	if (!mFin.is_open()) {
 		std::cout << "Error opening file" << std::endl;
-		// Need to quit if the file does not open 
+		std::exit(0);
 	}
 }
 
@@ -28,9 +29,13 @@ TokenClass ScannerClass::GetNextToken() {
 	TokenType tokenType;
 	StateMachineClass stateMachine;
 	MachineState currentState;
-	// NEED TO HANDLE THE START STATE
 	do{
 		c = mFin.get();
+
+		if (c == '\n') {
+			mLineNumber += 1;
+		}
+
 		s += c;
 		currentState = stateMachine.UpdateState(c, tokenType);
 
@@ -58,7 +63,15 @@ TokenClass ScannerClass::GetNextToken() {
 	// we must kick it off the lexeme and take unget it from the read stream
 	lexeme.pop_back();
 	mFin.unget();
+
+	if (c == '/n') {
+		mLineNumber -= 1;
+	}
 	
 	TokenClass tokenClass(tokenType, lexeme);
 	return tokenClass;
+}
+
+int ScannerClass::getLineNumber() {
+	return mLineNumber;
 }

@@ -13,10 +13,10 @@ int main() {
 
 
 	TokenClass tokenClass = scanner.GetNextToken();
-	std::cout << tokenClass << std::endl;
+	std::cout << scanner.getLineNumber() << ": " << tokenClass << std::endl;
 	while (tokenClass.GetTokenType() != TokenType::ENDFILE_TOKEN) {
 		tokenClass = scanner.GetNextToken();
-		std::cout << tokenClass << std::endl;
+		std::cout << scanner.getLineNumber() << ": " << tokenClass << std::endl;
 	}
 
 	//TokenType tt = VOID_TOKEN;

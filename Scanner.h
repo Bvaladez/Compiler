@@ -12,9 +12,11 @@ public:
 	~ScannerClass();
 
 	TokenClass GetNextToken();
+	int getLineNumber();
 
 private:
 	std::ifstream mFin;
+	int mLineNumber;
 
 };
 
