@@ -4,6 +4,7 @@
 #include "Token.h"
 #include "debug.h"
 
+#include <iomanip>
 #include <string>
 #include <iostream>
 

@@ -2,7 +2,7 @@
 #include "debug.h"
 
 StateMachineClass::StateMachineClass() {
-	
+
 	mCurrentState = START_STATE;
 
 	// fill all space to be Illegal states then change all those that are legal
@@ -55,9 +55,9 @@ StateMachineClass::StateMachineClass() {
 			mLegalMoves[BLOCKCOMMENTCLOSE_STATE][CHAR] = BLOCKCOMMENTOPEN_STATE;
 		}
 	}
-
-	mLegalMoves[BLOCKCOMMENTCLOSE_STATE][TIMES_CHAR] = BLOCKCOMMENTCLOSE_STATE;
-	mLegalMoves[BLOCKCOMMENTCLOSE_STATE][DIVIDE_CHAR] = START_STATE;
+		// Special cases for block comments
+		mLegalMoves[BLOCKCOMMENTCLOSE_STATE][TIMES_CHAR] = BLOCKCOMMENTCLOSE_STATE;
+		mLegalMoves[BLOCKCOMMENTCLOSE_STATE][DIVIDE_CHAR] = START_STATE;
 
 	// LINE COMMENTS //
 	mLegalMoves[DIVISION_STATE][DIVIDE_CHAR] = LINECOMMENT_STATE;
@@ -68,10 +68,9 @@ StateMachineClass::StateMachineClass() {
 			mLegalMoves[LINECOMMENT_STATE][CHAR] = LINECOMMENT_STATE;
 		}
 	}
-
-	// special cases to end a line comment
-	mLegalMoves[LINECOMMENT_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
-	mLegalMoves[LINECOMMENT_STATE][NEWLINE_CHAR] = START_STATE;
+		// special cases to end a line comment
+		mLegalMoves[LINECOMMENT_STATE][ENDFILE_CHAR] = ENDFILE_STATE;
+		mLegalMoves[LINECOMMENT_STATE][NEWLINE_CHAR] = START_STATE;
 
 
 	// SEMICOLON //
@@ -84,7 +83,13 @@ StateMachineClass::StateMachineClass() {
 	mLegalMoves[START_STATE][ASSIGNMENT_CHAR] = ASSIGNMENT_STATE;
 
 	// == //
-	mLegalMoves[ASSIGNMENT_STATE][ASSIGNMENT_CHAR] == EQUAL_STATE;
+	mLegalMoves[ASSIGNMENT_STATE][ASSIGNMENT_CHAR] = EQUAL_STATE;
+
+	// ! //
+	mLegalMoves[START_STATE][EXCLAMATION_CHAR] = NOT_STATE;
+
+	// != //
+	mLegalMoves[NOT_STATE][ASSIGNMENT_CHAR] = NOTEQUAL_STATE;
 
 	// > //
 	mLegalMoves[START_STATE][GREATER_CHAR] = GREATER_STATE;
@@ -136,6 +141,7 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[RCURLY_STATE] =		RCURLY_TOKEN;
 	mCorrespondingTokenTypes[ASSIGNMENT_STATE] =	ASSIGNMENT_TOKEN;
 	mCorrespondingTokenTypes[EQUAL_STATE] =			EQUAL_TOKEN;
+	mCorrespondingTokenTypes[NOTEQUAL_STATE] =		NOTEQUAL_TOKEN;
 
 
 }
@@ -166,6 +172,8 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = LESS_CHAR;
 	if (currentCharacter == '=')
 		charType = ASSIGNMENT_CHAR;
+	if (currentCharacter == '!')
+		charType = EXCLAMATION_CHAR;
 	if (currentCharacter == '(')
 		charType = LPAREN_CHAR;
 	if (currentCharacter == ')')

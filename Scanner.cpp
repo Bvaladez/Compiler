@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 
 #include "Scanner.h"
 #include "StateMachine.h"
@@ -20,6 +21,7 @@ ScannerClass::ScannerClass(std::string inputFileName){
 }
 
 ScannerClass::~ScannerClass() {
+	MSG("Destructing Scanner...")
 	mFin.close();
 }
 

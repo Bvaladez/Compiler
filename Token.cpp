@@ -29,8 +29,8 @@ void TokenClass::CheckReserved() {
 std::ostream& operator<<(std::ostream& out, const TokenClass& tc) {
 	// formats the text toe be justified even if lines have different chars	
 	out.setf(std::ios::left);
-	out << "Type: " << std::setw(15) << tc.GetTokenTypeName() <<
-		"Lexeme: " << std::setw(15) << tc.GetLexeme();
+	out << "Type: " << std::setw(15) << tc.GetTokenTypeName()
+		<< "Lexeme: " << std::setw(15) << tc.GetLexeme();
 	return out;
 
 

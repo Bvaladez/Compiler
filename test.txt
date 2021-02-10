@@ -3,5 +3,14 @@ void main(){
 	// &
 	/* This is a comment */
 	sum = 35 + 400;
+	a = 34 - 12;
+	b = 12 / 3;
+	c = 3 * 4;
+	<
+	<=
+	>
+	>=
+	==
+	!=
 	cout << sum;
 }
