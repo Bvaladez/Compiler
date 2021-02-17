@@ -66,3 +66,15 @@ AssignmentStatementNode::~AssignmentStatementNode() {
 	delete mIdentifierNode;
 	delete mExpressionNode;
 }
+
+CoutStatementNode::CoutStatementNode(ExpressionNode* expressionNode) {
+	mExpressionNode = expressionNode;
+}
+
+CoutStatementNode::~CoutStatementNode() {
+	delete mExpressionNode;
+}
+
+
+
+

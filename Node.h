@@ -7,8 +7,15 @@ class ProgramNode;
 class BlockNode;
 class StatementGroupNode;
 class StatementNode;
-class IdentifierNode;
+class DeclarationStatementNode;
+class AssignmentStateNode;
+class CoutStatementNode;
 class ExpressionNode;
+class IntegerNode;
+class IdentifierNode;
+class BinaryOperatorNode;
+class PlusNode;
+
 
 class Node {
 
@@ -83,7 +90,7 @@ private:
 
 };
 
-class AssignmentStatementNode : public Node {
+class AssignmentStatementNode : public StatementNode {
 
 public:
 	AssignmentStatementNode(IdentifierNode* indentifierNode, ExpressionNode* expressionNode);
@@ -95,5 +102,23 @@ private:
 	IdentifierNode* mIdentifierNode;
 	ExpressionNode* mExpressionNode;
 
+};
+
+class CoutStatementNode : public StatementNode {
+
+public:
+	CoutStatementNode(ExpressionNode* expressionNode);
+	~CoutStatementNode();
+	
+private:
+	ExpressionNode* mExpressionNode;
+};
+
+class ExpressionNode {
+
+public:
+	virtual int Evaluate() = 0;
+
+private:
 };
 
