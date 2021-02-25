@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 class Node;
 class StartNode;
@@ -115,10 +116,29 @@ private:
 };
 
 class ExpressionNode {
-
 public:
 	virtual int Evaluate() = 0;
+	virtual ~ExpressionNode();
 
 private:
 };
 
+class IntegerNode : public ExpressionNode {
+public:
+	IntegerNode(int val);
+	virtual int Evaluate() = 0;
+
+private:
+	int mInteger;
+};
+
+class IdentifierNode : public ExpressionNode {
+public:
+	IdentifierNode(std::string label);
+	void DeclareVariable();
+	void SetValue(int v);
+	int GetIndex();
+private:
+	std::string mLabel;
+
+};

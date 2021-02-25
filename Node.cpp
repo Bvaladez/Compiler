@@ -75,6 +75,18 @@ CoutStatementNode::~CoutStatementNode() {
 	delete mExpressionNode;
 }
 
+int ExpressionNode::Evaluate() {
 
+}
 
+ExpressionNode::~ExpressionNode() {
 
+}
+ 
+IntegerNode::IntegerNode(int val) {
+	mInteger = val;
+}
+
+int IntegerNode::Evaluate() {
+	return mInteger;
+}
