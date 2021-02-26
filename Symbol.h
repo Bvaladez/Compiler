@@ -1,7 +1,8 @@
 #pragma once
+#include <vector>	
 #include <string>
 
-class SymboolTableClass {
+class SymbolTableClass {
 
 public:
 	bool Exists(const std::string& s);
@@ -12,6 +13,11 @@ public:
 	int GetCount();
 
 private:
+	struct Variable {
+		std::string mLabel;
+		int mValue;
+	};
 
+	std::vector<Variable> mSymbolTable;
 
 };
