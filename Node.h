@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "Symbol.h"
 
 class Node;
 class StartNode;
@@ -138,7 +139,29 @@ public:
 	void DeclareVariable();
 	void SetValue(int v);
 	int GetIndex();
+	virtual int Evaluate();
 private:
 	std::string mLabel;
+	SymbolTableClass* SymbolTable;
+
+};
+
+
+class BinaryOperatorNode : public ExpressionNode {
+public:
+	BinaryOperatorNode(ExpressionNode * rhs, ExpressionNode * lhs);
+	~BinaryOperatorNode();
+protected:
+	ExpressionNode * mRhs;
+	ExpressionNode * mLhs;
+private:
+};
+
+class PlusNode : public BinaryOperatorNode {
+public:
+	PlusNode(ExpressionNode * rhs, ExpressionNode * lhs);
+	virtual int Evaluate();
+
+private:
 
 };

@@ -3,6 +3,8 @@
 #include "StateMachine.h"
 #include "Token.h"
 #include "debug.h"
+#include "Symbol.h"
+#include "Node.h"
 
 #include <iomanip>
 #include <string>
@@ -19,6 +21,9 @@ int main() {
 		tokenClass = scanner.GetNextToken();
 		std::cout << scanner.getLineNumber() << ": " << tokenClass << std::endl;
 	}
+
+	StartNode Node();
+	ProgramNode 
 
 	//TokenType tt = VOID_TOKEN;
 	//std::string lexeme = "void";

@@ -57,6 +57,7 @@ DeclarationStatementNode::~DeclarationStatementNode() {
 	delete mIdentifierNode;
 }
 
+// ASSIGNEMNT STATEMENT NODE
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode* identifierNode, ExpressionNode* expressionNode){
 	mIdentifierNode = identifierNode;
 	mExpressionNode = expressionNode;
@@ -67,6 +68,7 @@ AssignmentStatementNode::~AssignmentStatementNode() {
 	delete mExpressionNode;
 }
 
+// COUT STATEMENT NODE
 CoutStatementNode::CoutStatementNode(ExpressionNode* expressionNode) {
 	mExpressionNode = expressionNode;
 }
@@ -75,18 +77,67 @@ CoutStatementNode::~CoutStatementNode() {
 	delete mExpressionNode;
 }
 
-int ExpressionNode::Evaluate() {
 
-}
+// EXPRESSION NODE
 
 ExpressionNode::~ExpressionNode() {
 
 }
- 
+
+// INTEGER NODE
 IntegerNode::IntegerNode(int val) {
 	mInteger = val;
 }
 
 int IntegerNode::Evaluate() {
 	return mInteger;
+}
+
+
+// IDENTIFIER NODE
+
+IdentifierNode::IdentifierNode(std::string label) {
+	mLabel = label;
+	}
+
+void IdentifierNode::DeclareVariable() {
+	SymbolTable->AddEntry(mLabel);
+	}
+
+void IdentifierNode::SetValue(int v) {
+	SymbolTable->SetValue(mLabel, v);
+	}
+
+int IdentifierNode::GetIndex() {
+	return SymbolTable->GetIndex(mLabel);
+	}
+
+int IdentifierNode::Evaluate() {
+	return SymbolTable->GetValue(mLabel);
+}
+
+
+// BINARY OPERATOR NODE
+BinaryOperatorNode::BinaryOperatorNode(ExpressionNode* rhs, ExpressionNode* lhs) {
+	mRhs = rhs;
+	mLhs = lhs;
+	}
+
+BinaryOperatorNode::~BinaryOperatorNode() {
+	delete mRhs;
+	delete mLhs;
+}
+
+
+// PLUS NODE
+
+PlusNode::PlusNode(ExpressionNode* rhs, ExpressionNode* lhs)
+	: BinaryOperatorNode(rhs, lhs){
+}
+
+int PlusNode::Evaluate() {
+	int retval = 0;
+	retval += mRhs->Evaluate();
+	retval += mLhs->Evaluate();
+	return retval;
 }
