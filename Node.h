@@ -76,7 +76,6 @@ class StatementNode : public Node {
 
 public:
 
-
 private:
 
 };

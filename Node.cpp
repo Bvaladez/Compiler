@@ -1,9 +1,11 @@
-#include "Node.h"
+#include "Debug.h"
+#include "Node.h" 
 
 Node::Node() {
 }
 
 Node::~Node() {
+	MSG("Destruction Node...");
 }
 
 // START NODE
@@ -12,6 +14,7 @@ StartNode::StartNode(ProgramNode* programNode){
 }
 
 StartNode::~StartNode() {
+	MSG("Destructing Start Node...");
 	delete mProgramNode;
 }
 
@@ -22,6 +25,7 @@ ProgramNode::ProgramNode(BlockNode* blockNode) {
 
 ProgramNode::~ProgramNode() {
 	delete mBlockNode;
+	MSG("Destructing Program Node...");
 }
 
 // BLOCK NODE
@@ -31,6 +35,7 @@ BlockNode::BlockNode(StatementGroupNode* statementGroupNode) {
 
 BlockNode::~BlockNode() {
 	delete mStatementGroupNode;
+	MSG("Destructing Block Node...");
 }
 
 // STATEMENT GROUP NODE
@@ -42,6 +47,8 @@ StatementGroupNode::~StatementGroupNode() {
 	for (int i = 0; i < mStatementNodes.size(); i++) {
 		delete mStatementNodes[i];
 	}
+	MSG("Destructing Statement Group Node...");
+	MSG("	" << mStatementNodes.size() << " Statement Nodes deleted...");
 }
 
 void StatementGroupNode::addStatement(StatementNode* statementNode) {
@@ -55,6 +62,7 @@ DeclarationStatementNode::DeclarationStatementNode( IdentifierNode* identifierNo
 
 DeclarationStatementNode::~DeclarationStatementNode() {
 	delete mIdentifierNode;
+	MSG("Destructing Statement Declaration Statement Node...");
 }
 
 // ASSIGNEMNT STATEMENT NODE
@@ -66,6 +74,7 @@ AssignmentStatementNode::AssignmentStatementNode(IdentifierNode* identifierNode,
 AssignmentStatementNode::~AssignmentStatementNode() {
 	delete mIdentifierNode;
 	delete mExpressionNode;
+	MSG("Destructing Statement Assignment Statement Node...");
 }
 
 // COUT STATEMENT NODE
@@ -75,6 +84,7 @@ CoutStatementNode::CoutStatementNode(ExpressionNode* expressionNode) {
 
 CoutStatementNode::~CoutStatementNode() {
 	delete mExpressionNode;
+	MSG("Destructing Statement Cout Statement Node...");
 }
 
 
@@ -82,7 +92,9 @@ CoutStatementNode::~CoutStatementNode() {
 
 ExpressionNode::~ExpressionNode() {
 
+	MSG("Destructing Statement Expression Node...");
 }
+
 
 // INTEGER NODE
 IntegerNode::IntegerNode(int val) {
@@ -126,6 +138,7 @@ BinaryOperatorNode::BinaryOperatorNode(ExpressionNode* rhs, ExpressionNode* lhs)
 BinaryOperatorNode::~BinaryOperatorNode() {
 	delete mRhs;
 	delete mLhs;
+	MSG("Destructing Statement Binary Operator Node...");
 }
 
 

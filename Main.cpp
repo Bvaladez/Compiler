@@ -21,9 +21,13 @@ int main() {
 		tokenClass = scanner.GetNextToken();
 		std::cout << scanner.getLineNumber() << ": " << tokenClass << std::endl;
 	}
+	StatementNode *statementNode = new StatementNode();
+	StatementGroupNode *statementGroupNode = new StatementGroupNode();
+	BlockNode *blockNode = new BlockNode(statementGroupNode);
+	ProgramNode *programNode = new ProgramNode(blockNode);
+	StartNode* startNode = new StartNode(programNode);
+	delete startNode;
 
-	StartNode Node();
-	ProgramNode 
 
 	//TokenType tt = VOID_TOKEN;
 	//std::string lexeme = "void";
