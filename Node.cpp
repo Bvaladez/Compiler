@@ -5,7 +5,7 @@ Node::Node() {
 }
 
 Node::~Node() {
-	MSG("Destruction Node...");
+	MSG("Destructing Node...");
 }
 
 // START NODE
@@ -130,7 +130,7 @@ int IdentifierNode::Evaluate() {
 
 
 // BINARY OPERATOR NODE
-BinaryOperatorNode::BinaryOperatorNode(ExpressionNode* rhs, ExpressionNode* lhs) {
+BinaryOperatorNode::BinaryOperatorNode(ExpressionNode* lhs, ExpressionNode* rhs) {
 	mRhs = rhs;
 	mLhs = lhs;
 	}
@@ -144,8 +144,8 @@ BinaryOperatorNode::~BinaryOperatorNode() {
 
 // PLUS NODE
 
-PlusNode::PlusNode(ExpressionNode* rhs, ExpressionNode* lhs)
-	: BinaryOperatorNode(rhs, lhs){
+PlusNode::PlusNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
 }
 
 int PlusNode::Evaluate() {
@@ -154,3 +154,132 @@ int PlusNode::Evaluate() {
 	retval += mLhs->Evaluate();
 	return retval;
 }
+
+// MINUS NODE
+
+MinusNode::MinusNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int MinusNode::Evaluate() {
+	int retval = 0;
+	retval -= mRhs->Evaluate();
+	retval -= mLhs->Evaluate();
+	return retval;
+}
+
+// TIMES NODE
+
+TimesNode::TimesNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int TimesNode::Evaluate() {
+	int retval = 0;
+	retval *= mRhs->Evaluate();
+	retval *= mLhs->Evaluate();
+	return retval;
+}
+
+// DIVIDE NODE
+
+DivideNode::DivideNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int DivideNode::Evaluate() {
+	int retval = 0;
+	retval /= mRhs->Evaluate();
+	retval /= mLhs->Evaluate();
+	return retval;
+}
+
+// LESS NODE
+
+LessNode::LessNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int LessNode::Evaluate() {
+	int retval = 0;
+	if ( mLhs->Evaluate() < mRhs->Evaluate() ) {
+		retval = 1;
+	}
+	return retval;
+}
+
+// LESS EQUAL NODE
+
+LessEqualNode::LessEqualNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int LessEqualNode::Evaluate() {
+	int retval = 0;
+	if ( mLhs->Evaluate() <= mRhs->Evaluate() ) {
+		retval = 1;
+	}
+	return retval;
+}
+
+// GREATER NODE
+
+GreaterNode::GreaterNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int GreaterNode::Evaluate() {
+	int retval = 0;
+	if ( mLhs->Evaluate() > mRhs->Evaluate() ) {
+		retval = 1;
+	}
+	return retval;
+}
+
+// GREATER EQUAL NODE
+
+GreaterEqualNode::GreaterEqualNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int GreaterEqualNode::Evaluate() {
+	int retval = 0;
+	if ( mLhs->Evaluate() >= mRhs->Evaluate() ) {
+		retval = 1;
+	}
+	return retval;
+}
+
+// EQUAL NODE
+
+EqualNode::EqualNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int EqualNode::Evaluate() {
+	int retval = 0;
+	if ( mLhs->Evaluate() == mRhs->Evaluate() ) {
+		retval = 1;
+	}
+	return retval;
+}
+
+// NOT EQUAL NODE
+
+NotEqualNode::NotEqualNode(ExpressionNode* lhs, ExpressionNode* rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int NotEqualNode::Evaluate() {
+	int retval = 0;
+	if ( mLhs->Evaluate() != mRhs->Evaluate() ) {
+		retval = 1;
+	}
+	return retval;
+}
+
+
+
+
+
+

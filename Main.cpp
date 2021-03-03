@@ -21,6 +21,7 @@ int main() {
 		tokenClass = scanner.GetNextToken();
 		std::cout << scanner.getLineNumber() << ": " << tokenClass << std::endl;
 	}
+
 	StatementNode *statementNode = new StatementNode();
 	StatementGroupNode *statementGroupNode = new StatementGroupNode();
 	BlockNode *blockNode = new BlockNode(statementGroupNode);

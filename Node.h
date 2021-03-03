@@ -17,6 +17,15 @@ class IntegerNode;
 class IdentifierNode;
 class BinaryOperatorNode;
 class PlusNode;
+class MinusNode;
+class TimesNode;
+class DivideNode;
+class LessNode;
+class LessEqualNode;
+class GreaterNode;
+class GreaterEqualNode;
+class EqualNode;
+class NotEqualNode;
 
 
 class Node {
@@ -148,7 +157,7 @@ private:
 
 class BinaryOperatorNode : public ExpressionNode {
 public:
-	BinaryOperatorNode(ExpressionNode * rhs, ExpressionNode * lhs);
+	BinaryOperatorNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	~BinaryOperatorNode();
 protected:
 	ExpressionNode * mRhs;
@@ -158,9 +167,77 @@ private:
 
 class PlusNode : public BinaryOperatorNode {
 public:
-	PlusNode(ExpressionNode * rhs, ExpressionNode * lhs);
+	PlusNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	virtual int Evaluate();
 
 private:
 
 };
+
+class MinusNode : public BinaryOperatorNode {
+public:
+	MinusNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class TimesNode : public BinaryOperatorNode {
+public:
+	TimesNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class DivideNode : public BinaryOperatorNode {
+public:
+	DivideNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class LessNode : public BinaryOperatorNode {
+public:
+	LessNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class LessEqualNode : public BinaryOperatorNode {
+public:
+	LessEqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class GreaterNode : public BinaryOperatorNode {
+public:
+	GreaterNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class GreaterEqualNode : public BinaryOperatorNode {
+public:
+	GreaterEqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class EqualNode : public BinaryOperatorNode {
+public:
+	EqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+class NotEqualNode : public BinaryOperatorNode {
+public:
+	NotEqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
+	virtual int Evaluate();
+private:
+};
+
+
+
+
+
