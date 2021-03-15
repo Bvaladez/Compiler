@@ -12,8 +12,9 @@ public:
 	~ScannerClass();
 
 	TokenClass GetNextToken();
+	TokenClass PeekNextToken();
 	int getLineNumber();
-
+	
 private:
 	std::ifstream mFin;
 	int mLineNumber;

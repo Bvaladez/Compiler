@@ -74,6 +74,18 @@ TokenClass ScannerClass::GetNextToken() {
 	return tokenClass;
 }
 
+TokenClass ScannerClass::PeekNextToken() {
+	int currentLine = mLineNumber;
+	std::streampos p = mFin.tellg();
+	TokenClass t = GetNextToken();
+	if (!mFin) {
+		mFin.clear();
+	}
+	mFin.seekg(p);
+	mLineNumber = currentLine;
+	return T;
+}
+
 int ScannerClass::getLineNumber() {
 	return mLineNumber;
 }
