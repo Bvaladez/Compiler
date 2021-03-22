@@ -10,6 +10,19 @@
 #include <string>
 #include <iostream>
 
+void Interpret(String inputFile) {
+	ScannerClass(inputFile);
+	SymbolTableClass symbolTable;
+	ParserClass parser(&scanner, &symbolTable);
+
+	StartNode* root = parser.Start();
+
+	root->Interpret();
+
+	delete root;
+}
+
+
 int main() {
 	MSG("Compiling");
 	ScannerClass scanner("test.txt");
