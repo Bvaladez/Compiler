@@ -58,7 +58,7 @@ private:
 	BlockNode *mBlockNode;
 };
 
-class BlockNode : public Node {
+class BlockNode : public StatementNode {
 
 public:
 	BlockNode(StatementGroupNode *statementGroupNode);

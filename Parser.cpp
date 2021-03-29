@@ -7,50 +7,67 @@ ParserClass::ParserClass(ScannerClass* Scanner, SymbolTableClass* SymbolTable) {
 	mSymbolTable = SymbolTable;
 }
 
-void ParserClass::Start() {
-	Program();
+StartNode * ParserClass::Start() {
+	ProgramNode* pn = Program();
 	Match(ENDFILE_TOKEN);
+	StartNode* sn = new StartNode(pn);
+	return sn;
 }
 
-void ParserClass::Program() {
+ProgramNode * ParserClass::Program() {
+	BlockNode* bn = Block();
 	Match(VOID_TOKEN);
 	Match(MAIN_TOKEN);
 	Match(LPAREN_TOKEN);
 	Match(RPAREN_TOKEN);
 	Block();
+	ProgramNode* pn = new ProgramNode(bn);
+	return pn;
 }
 
-void ParserClass::Block() {
+BlockNode * ParserClass::Block() {
+	StatementGroupNode* sgn = StatementGroup();
 	Match(LCURLY_TOKEN);
 	StatementGroup();
 	Match(RCURLY_TOKEN);
+	BlockNode* bn = new BlockNode(sgn);
+	return bn;
 }
 
-void ParserClass::StatementGroup() {
-	bool check;
+StatementGroupNode * ParserClass::StatementGroup() {
+	StatementGroupNode* sgn = new StatementGroupNode();
+	StatementNode * sn;
 	do {
-		check = Statement();
+		sn = Statement();
+		if (sn != NULL) {
+			sgn->addStatement(sn);
+		}
 	}
-	while (check);
+	while (sn != NULL);
+	return sgn;
 }
 
-bool ParserClass::Statement() {
+StatementNode * ParserClass::Statement() {
+
 	TokenClass Token = mScanner->PeekNextToken();
 	TokenType tt = Token.GetTokenType();
 	if (tt == INT_TOKEN) {
 		DeclarationStatement();
-		return true;
+		StatementNode* sn = new StatementNode();
+		return sn;
 	}
 	else if (tt == IDENTIFIER_TOKEN) {
 		AssignmentStatement();
-		return true;
+		StatementNode* sn = new StatementNode();
+		return sn;
 	}
 	else if (tt == COUT_TOKEN) {
 		CoutStatement();
-		return true;
+		StatementNode* sn = new StatementNode();
+		return sn;
 	}
 	else {
-		return false;
+		return NULL;
 	}
 
 }
@@ -159,26 +176,29 @@ void ParserClass::Integer() {
 	Match(INTEGER_TOKEN);
 }
 
-void ParserClass::DeclarationStatement() {
+DeclarationStatementNode * ParserClass::DeclarationStatement() {
+	// how do we get the string to create IdentifierNodes?
+	IdentifierNode* in = new IdentifierNode();
 	Match(INT_TOKEN);
 	Identifier();
 	Match(SEMICOLON_TOKEN);
+	DeclarationStatementNode* dn = new DeclarationStatementNode(in);
+	return dn;
 }
 
-void ParserClass::AssignmentStatement() {
+AssignmentStatementNode * ParserClass::AssignmentStatement() {
 	Identifier();
 	Match(ASSIGNMENT_TOKEN);
 	Expression();
 	Match(SEMICOLON_TOKEN);
 }
-void ParserClass::CoutStatement() {
+
+CoutStatementNode * ParserClass::CoutStatement() {
 	Match(COUT_TOKEN);
 	Match(INSERTION_TOKEN);
 	Expression();
 	Match(SEMICOLON_TOKEN);
 }
-
-
 
 TokenClass ParserClass::Match(TokenType expectedType) {
 	TokenClass currentToken = mScanner->GetNextToken();

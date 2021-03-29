@@ -2,7 +2,7 @@
 
 #include "Scanner.h"
 #include "Symbol.h"
-
+#include "Node.h"
 
 class ParserClass {
 
@@ -11,14 +11,14 @@ public:
 	ParserClass(ScannerClass *Scanner, SymbolTableClass *SymbolTable);
 	~ParserClass();
 
-	void Start();
-	void Program();
-	void Block();
-	void StatementGroup();
-	bool Statement();
-	void DeclarationStatement();
-	void AssignmentStatement();
-	void CoutStatement();
+	StartNode * Start();
+	ProgramNode * Program();
+	BlockNode * Block();
+	StatementGroupNode * StatementGroup();
+	StatementNode * Statement();
+	DeclarationStatementNode * DeclarationStatement();
+	AssignmentStatementNode * AssignmentStatement();
+	CoutStatementNode * CoutStatement();
 	void Expression();
 	void Relational();
 	void PlusMinus();
