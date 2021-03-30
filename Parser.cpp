@@ -167,22 +167,24 @@ void ParserClass::Factor() {
 	}
 	
 }
-
-void ParserClass::Identifier() {
-	Match(IDENTIFIER_TOKEN);
+TokenClass ParserClass::Identifier() {
+	return Match(IDENTIFIER_TOKEN);
 }
 
-void ParserClass::Integer() {
-	Match(INTEGER_TOKEN);
+TokenClass ParserClass::Integer() {
+	return Match(INTEGER_TOKEN);
 }
 
 DeclarationStatementNode * ParserClass::DeclarationStatement() {
 	// how do we get the string to create IdentifierNodes?
-	IdentifierNode* in = new IdentifierNode();
 	Match(INT_TOKEN);
-	Identifier();
+	TokenClass tc = Identifier();
 	Match(SEMICOLON_TOKEN);
+
+	std::string label = tc.GetLexeme();
+	IdentifierNode* in = new IdentifierNode(label);
 	DeclarationStatementNode* dn = new DeclarationStatementNode(in);
+
 	return dn;
 }
 
@@ -191,6 +193,9 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
 	Match(ASSIGNMENT_TOKEN);
 	Expression();
 	Match(SEMICOLON_TOKEN);
+	
+	// Takes identifier node then a expression node
+	AssignmentStatementNode* asn = new AssignmentStatementNode();
 }
 
 CoutStatementNode * ParserClass::CoutStatement() {

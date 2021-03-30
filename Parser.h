@@ -24,8 +24,8 @@ public:
 	void PlusMinus();
 	void TimesDivide();
 	void Factor();
-	void Integer();
-	void Identifier();
+	TokenClass Integer();
+	TokenClass Identifier();
 
 	TokenClass Match(TokenType expectedType);
 
