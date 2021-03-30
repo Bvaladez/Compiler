@@ -4,11 +4,11 @@
 #include "Symbol.h"
 
 class Node;
+class StatementNode;
 class StartNode;
 class ProgramNode;
 class BlockNode;
 class StatementGroupNode;
-class StatementNode;
 class DeclarationStatementNode;
 class AssignmentStateNode;
 class CoutStatementNode;
@@ -58,6 +58,16 @@ private:
 	BlockNode *mBlockNode;
 };
 
+class StatementNode : public Node {
+
+public:
+	StatementNode();
+	virtual ~StatementNode();
+
+private:
+
+};
+
 class BlockNode : public StatementNode {
 
 public:
@@ -76,16 +86,7 @@ public:
 	void addStatement(StatementNode *statementNode);
 	
 private:
-
 	std::vector<StatementNode*> mStatementNodes;
-
-};
-
-class StatementNode : public Node {
-
-public:
-
-private:
 
 };
 

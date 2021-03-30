@@ -8,6 +8,7 @@ ParserClass::ParserClass(ScannerClass* Scanner, SymbolTableClass* SymbolTable) {
 }
 
 StartNode * ParserClass::Start() {
+	MSG("Parser Starting...")
 	ProgramNode* pn = Program();
 	Match(ENDFILE_TOKEN);
 	StartNode* sn = new StartNode(pn);
@@ -15,12 +16,11 @@ StartNode * ParserClass::Start() {
 }
 
 ProgramNode * ParserClass::Program() {
-	BlockNode* bn = Block();
 	Match(VOID_TOKEN);
 	Match(MAIN_TOKEN);
 	Match(LPAREN_TOKEN);
 	Match(RPAREN_TOKEN);
-	Block();
+	BlockNode* bn = Block();
 	ProgramNode* pn = new ProgramNode(bn);
 	return pn;
 }
@@ -209,8 +209,10 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
 CoutStatementNode * ParserClass::CoutStatement() {
 	Match(COUT_TOKEN);
 	Match(INSERTION_TOKEN);
-	Expression();
+	ExpressionNode * exp = Expression();
 	Match(SEMICOLON_TOKEN);
+	CoutStatementNode* csn = new CoutStatementNode(exp);
+	return csn;
 }
 
 TokenClass ParserClass::Match(TokenType expectedType) {

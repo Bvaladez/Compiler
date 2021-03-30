@@ -83,7 +83,7 @@ TokenClass ScannerClass::PeekNextToken() {
 	}
 	mFin.seekg(p);
 	mLineNumber = currentLine;
-	return T;
+	return t;
 }
 
 int ScannerClass::getLineNumber() {

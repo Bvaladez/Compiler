@@ -55,7 +55,16 @@ void StatementGroupNode::addStatement(StatementNode* statementNode) {
 	mStatementNodes.push_back(statementNode);
 }
 
+// STATEMENT NODE 
+StatementNode::StatementNode() {
 
+}
+
+StatementNode::~StatementNode() {
+
+}
+
+// DECLARATION STATEMENT NODE
 DeclarationStatementNode::DeclarationStatementNode( IdentifierNode* identifierNode) {
 	mIdentifierNode = identifierNode;
 }
