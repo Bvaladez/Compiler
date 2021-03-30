@@ -19,13 +19,13 @@ public:
 	DeclarationStatementNode * DeclarationStatement();
 	AssignmentStatementNode * AssignmentStatement();
 	CoutStatementNode * CoutStatement();
-	void Expression();
-	void Relational();
-	void PlusMinus();
-	void TimesDivide();
-	void Factor();
-	TokenClass Integer();
-	TokenClass Identifier();
+	ExpressionNode * Expression();
+	ExpressionNode * Relational();
+	ExpressionNode * PlusMinus();
+	ExpressionNode * TimesDivide();
+	ExpressionNode * Factor();
+	IntegerNode * Integer();
+	IdentifierNode * Identifier();
 
 	TokenClass Match(TokenType expectedType);
 

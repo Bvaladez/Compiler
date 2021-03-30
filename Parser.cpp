@@ -72,94 +72,98 @@ StatementNode * ParserClass::Statement() {
 
 }
 
-void ParserClass::Expression() {
-	Relational();
+ExpressionNode *  ParserClass::Expression() {
+	return Relational();
 }
 
-void ParserClass::Relational() {
-	PlusMinus();
+ExpressionNode * ParserClass::Relational() {
+	ExpressionNode * current = PlusMinus();
 
 	//handle optional tail (LL1 parser)
 	TokenType tt = mScanner->PeekNextToken().GetTokenType();
 	if (tt == LESS_TOKEN) {
 		Match(tt);
-		PlusMinus();
+		current = new LessNode(current, PlusMinus());
 	}
 	else if(tt == LESSEQUAL_TOKEN){
 		Match(tt);
-		PlusMinus();
+		current = new LessEqualNode(current, PlusMinus());
 	}
 	else if (tt == GREATER_TOKEN) {
 		Match(tt);
-		PlusMinus();
+		current = new GreaterNode(current, PlusMinus());
 	}
 	else if (tt == GREATEREQUAL_TOKEN) {
 		Match(tt);
-		PlusMinus();
+		current = new GreaterEqualNode(current, PlusMinus());
 	}
 	else if (tt == EQUAL_TOKEN) {
 		Match(tt);
-		PlusMinus();
+		current = new EqualNode(current, PlusMinus());
 	}
 	else if (tt == NOTEQUAL_TOKEN) {
 		Match(tt);
-		PlusMinus();
+		current = new NotEqualNode(current, PlusMinus());
 	}
 	else {
-		return;
+		return current;
 	}
 }
 
-void ParserClass::PlusMinus() {
-	TimesDivide();
+ExpressionNode * ParserClass::PlusMinus() {
+	ExpressionNode * current  = TimesDivide();
 	while (true) {
 		TokenType tt = mScanner->PeekNextToken().GetTokenType();
 		if (tt == PLUS_TOKEN)
 		{
 			Match(tt);
-			TimesDivide();
+			current = new PlusNode(current, TimesDivide());
 		}
 		else if (tt == MINUS_TOKEN)
 		{
 			Match(tt);
-			TimesDivide();
+			current = new MinusNode(current, TimesDivide());
 		}
 		else
 		{
-			return;
+			return current;
 		}
 	}
 }
 
-void ParserClass::TimesDivide() {
-	Factor();
+ExpressionNode * ParserClass::TimesDivide() {
+	ExpressionNode * current = Factor();
 	while (true) {
 		TokenType tt = mScanner->PeekNextToken().GetTokenType();
 		if (tt == TIMES_TOKEN) {
 			Match(tt);
-			Factor();
+			current = new TimesNode(current, Factor());
 		}
 		else if (tt == DIVIDE_TOKEN) {
 			Match(tt);
-			Factor();
+			current = new DivideNode(current, Factor());
 		}
 		else {
-			return;
+			return current;
 		}
 	}
 }
 
-void ParserClass::Factor() {
+ExpressionNode * ParserClass::Factor() {
+	ExpressionNode* current;
 	TokenType tt = mScanner->PeekNextToken().GetTokenType();
 	if (tt == IDENTIFIER_TOKEN) {
-		Identifier();
+		current = Identifier();
+		return current;
 	}
 	else if (tt == INTEGER_TOKEN) {
-		Integer();
+		current = Integer();
+		return current;
 	}
 	else if (tt == LPAREN_TOKEN) {
-		Expression();
+		current = Expression();
 		Match(RPAREN_TOKEN);
+		return current;
 	}
 	else {
 		std::cerr << "Unexpected Token --> " << tt << std::endl;
@@ -167,35 +171,39 @@ void ParserClass::Factor() {
 	}
 	
 }
-TokenClass ParserClass::Identifier() {
-	return Match(IDENTIFIER_TOKEN);
+IdentifierNode * ParserClass::Identifier() {
+	TokenClass token = Match(IDENTIFIER_TOKEN);
+	std::string label = token.GetLexeme();
+	IdentifierNode * in = new IdentifierNode(label);
+	return in;
 }
 
-TokenClass ParserClass::Integer() {
-	return Match(INTEGER_TOKEN);
+IntegerNode * ParserClass::Integer() {
+	TokenClass token = Match(INTEGER_TOKEN);
+	std::string label = token.GetLexeme();
+	const char* cString = label.c_str();
+	int tokenInt = atoi(cString);
+	IntegerNode * in =  new IntegerNode(tokenInt);
+	return in;
 }
 
 DeclarationStatementNode * ParserClass::DeclarationStatement() {
-	// how do we get the string to create IdentifierNodes?
 	Match(INT_TOKEN);
-	TokenClass tc = Identifier();
+	IdentifierNode * in = Identifier();
 	Match(SEMICOLON_TOKEN);
-
-	std::string label = tc.GetLexeme();
-	IdentifierNode* in = new IdentifierNode(label);
 	DeclarationStatementNode* dn = new DeclarationStatementNode(in);
-
 	return dn;
 }
 
 AssignmentStatementNode * ParserClass::AssignmentStatement() {
-	Identifier();
+	IdentifierNode * in = Identifier();
 	Match(ASSIGNMENT_TOKEN);
-	Expression();
+	ExpressionNode * exp = Expression();
 	Match(SEMICOLON_TOKEN);
 	
 	// Takes identifier node then a expression node
-	AssignmentStatementNode* asn = new AssignmentStatementNode();
+	AssignmentStatementNode* asn = new AssignmentStatementNode(in, exp);
+	return asn;
 }
 
 CoutStatementNode * ParserClass::CoutStatement() {

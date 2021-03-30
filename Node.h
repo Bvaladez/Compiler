@@ -135,7 +135,7 @@ private:
 class IntegerNode : public ExpressionNode {
 public:
 	IntegerNode(int val);
-	virtual int Evaluate() = 0;
+	virtual int Evaluate();
 
 private:
 	int mInteger;
