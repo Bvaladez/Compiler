@@ -2,20 +2,21 @@
 #include "Symbol.h"	
 
 
+SymbolTableClass::SymbolTableClass() {
+
+}
 
 bool SymbolTableClass::Exists(const std::string& s) {
 	for (int i = 0; i < mSymbolTable.size(); i++) {
-		if (this->mSymbolTable[i].mLabel == s) {
+		if (mSymbolTable[i].mLabel == s) {
 			return true;
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 }
 
 void SymbolTableClass::AddEntry(const std::string& s) {
-	if (!Exists(s)) {
+	if (Exists(s) == false) {
 		Variable v;
 		v.mLabel = s;
 		v.mValue = -1;
@@ -28,7 +29,7 @@ void SymbolTableClass::AddEntry(const std::string& s) {
 
 int SymbolTableClass::GetValue(const std::string& s) {
 	if (Exists(s)) {
-		return this->mSymbolTable[GetIndex(s)].mValue;
+		return mSymbolTable[GetIndex(s)].mValue;
 	}
 	else {
 		std::cout << "Variable " << s << " does not exist in the symbol table, could not get value. " << std::endl;
@@ -38,7 +39,7 @@ int SymbolTableClass::GetValue(const std::string& s) {
 
 void SymbolTableClass::SetValue(const std::string& s, int v) {
 	if (Exists(s)) {
-		this->mSymbolTable[GetIndex(s)].mValue = v;
+		mSymbolTable[GetIndex(s)].mValue = v;
 	}
 	else {
 		std::cout << "Variable " << s << " does not exist in the symbol table, could not update value. " << std::endl;
@@ -48,7 +49,7 @@ void SymbolTableClass::SetValue(const std::string& s, int v) {
 
 int SymbolTableClass::GetIndex(const std::string& s) {
 	for (int i = 0; i < mSymbolTable.size(); i++) {
-		if (this->mSymbolTable[i].mLabel == s) {
+		if (mSymbolTable[i].mLabel == s) {
 			return i;
 		}
 	}
@@ -57,6 +58,6 @@ int SymbolTableClass::GetIndex(const std::string& s) {
 }
 
 int SymbolTableClass::GetCount() {
-	return this->mSymbolTable.size();
+	return mSymbolTable.size();
 }
 

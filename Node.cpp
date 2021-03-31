@@ -1,12 +1,14 @@
 #include "Debug.h"
 #include "Node.h" 
 
+// BASE NODE
 Node::Node() {
 }
 
 Node::~Node() {
 	MSG("Destructing Node...");
 }
+
 
 // START NODE
 StartNode::StartNode(ProgramNode* programNode){
@@ -16,6 +18,10 @@ StartNode::StartNode(ProgramNode* programNode){
 StartNode::~StartNode() {
 	MSG("Destructing Start Node...");
 	delete mProgramNode;
+}
+
+void StartNode::Interpret() {
+	mProgramNode->Interpret();
 }
 
 // PROGRAM NODE
@@ -28,6 +34,10 @@ ProgramNode::~ProgramNode() {
 	MSG("Destructing Program Node...");
 }
 
+void ProgramNode::Interpret() {
+	mBlockNode->Interpret();
+}
+
 // BLOCK NODE
 BlockNode::BlockNode(StatementGroupNode* statementGroupNode) {
 	mStatementGroupNode = statementGroupNode;
@@ -38,6 +48,11 @@ BlockNode::~BlockNode() {
 	MSG("Destructing Block Node...");
 }
 
+void BlockNode::Interpret() {
+	mStatementGroupNode->Interpret();
+}
+
+
 // STATEMENT GROUP NODE
 StatementGroupNode::StatementGroupNode() {
 
@@ -47,12 +62,17 @@ StatementGroupNode::~StatementGroupNode() {
 	for (int i = 0; i < mStatementNodes.size(); i++) {
 		delete mStatementNodes[i];
 	}
-	MSG("Destructing Statement Group Node...");
-	MSG("	" << mStatementNodes.size() << " Statement Nodes deleted...");
+	MSG("Destructing Statement Nodes...");
 }
 
 void StatementGroupNode::addStatement(StatementNode* statementNode) {
 	mStatementNodes.push_back(statementNode);
+}
+
+void StatementGroupNode::Interpret() {
+	for (int i = 0; i < mStatementNodes.size(); i++) {
+		mStatementNodes[i]->Interpret();
+	}
 }
 
 // STATEMENT NODE 
@@ -74,6 +94,10 @@ DeclarationStatementNode::~DeclarationStatementNode() {
 	MSG("Destructing Statement Declaration Statement Node...");
 }
 
+void DeclarationStatementNode::Interpret() {
+	mIdentifierNode->DeclareVariable();
+}
+
 // ASSIGNEMNT STATEMENT NODE
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode* identifierNode, ExpressionNode* expressionNode){
 	mIdentifierNode = identifierNode;
@@ -86,6 +110,11 @@ AssignmentStatementNode::~AssignmentStatementNode() {
 	MSG("Destructing Statement Assignment Statement Node...");
 }
 
+void AssignmentStatementNode::Interpret() {
+	int value = mExpressionNode->Evaluate();
+	mIdentifierNode->SetValue(value);
+}
+
 // COUT STATEMENT NODE
 CoutStatementNode::CoutStatementNode(ExpressionNode* expressionNode) {
 	mExpressionNode = expressionNode;
@@ -96,11 +125,14 @@ CoutStatementNode::~CoutStatementNode() {
 	MSG("Destructing Statement Cout Statement Node...");
 }
 
+void CoutStatementNode::Interpret() {
+	int value = mExpressionNode->Evaluate();
+	std::cout << value << '\r';
+}
+
 
 // EXPRESSION NODE
-
 ExpressionNode::~ExpressionNode() {
-
 	MSG("Destructing Statement Expression Node...");
 }
 

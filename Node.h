@@ -32,6 +32,7 @@ class Node {
 
 public:
 	Node();
+	virtual void Interpret() = 0;
 	virtual ~Node();
 private:
 
@@ -42,6 +43,7 @@ class StartNode: public Node {
 public:
 	StartNode(ProgramNode *programNode);
 	virtual ~StartNode();
+	void Interpret();
 
 private:
 	ProgramNode *mProgramNode;
@@ -53,6 +55,7 @@ class ProgramNode : public Node {
 public:
 	ProgramNode(BlockNode *blockNode);
 	virtual ~ProgramNode();
+	void Interpret();
 
 private:
 	BlockNode *mBlockNode;
@@ -73,6 +76,7 @@ class BlockNode : public StatementNode {
 public:
 	BlockNode(StatementGroupNode *statementGroupNode);
 	virtual ~BlockNode();
+	void Interpret();
 
 private:
 	StatementGroupNode *mStatementGroupNode;
@@ -84,6 +88,7 @@ public:
 	StatementGroupNode();
 	virtual ~StatementGroupNode();
 	void addStatement(StatementNode *statementNode);
+	void Interpret();
 	
 private:
 	std::vector<StatementNode*> mStatementNodes;
@@ -95,6 +100,7 @@ class DeclarationStatementNode : public StatementNode {
 public:
 	DeclarationStatementNode(IdentifierNode* indentifierNode);
 	virtual ~DeclarationStatementNode();
+	void Interpret();
 
 private:
 	IdentifierNode* mIdentifierNode;
@@ -107,6 +113,7 @@ public:
 	AssignmentStatementNode(IdentifierNode* indentifierNode, ExpressionNode* expressionNode);
 	// might not need a destructor because it inherits from node
 	~AssignmentStatementNode();
+	void Interpret();
 
 
 private:
@@ -120,6 +127,7 @@ class CoutStatementNode : public StatementNode {
 public:
 	CoutStatementNode(ExpressionNode* expressionNode);
 	~CoutStatementNode();
+	void Interpret();
 	
 private:
 	ExpressionNode* mExpressionNode;

@@ -22,33 +22,18 @@
 //
 //	delete root;
 //}
+void Interpret(std::string inputFile) {
+	MSG("Interpreting");
+	ScannerClass Scanner(inputFile);
+	SymbolTableClass SymbolTable;
+	ParserClass Parser(&Scanner, &SymbolTable);
 
+	StartNode* root = Parser.Start();
+	root->Interpret();
+	delete root;
+}
 
 int main() {
-	MSG("Compiling");
-	ScannerClass * scanner = new ScannerClass("test.txt");
-
-
-	TokenClass tokenClass = scanner->GetNextToken();
-	std::cout << scanner->getLineNumber() << ": " << tokenClass << std::endl;
-	while (tokenClass.GetTokenType() != TokenType::ENDFILE_TOKEN) {
-		tokenClass = scanner->GetNextToken();
-		std::cout << scanner->getLineNumber() << ": " << tokenClass << std::endl;
-	}
-
-	//StatementNode *statementNode = new StatementNode();
-	//StatementGroupNode *statementGroupNode = new StatementGroupNode();
-	//BlockNode *blockNode = new BlockNode(statementGroupNode);
-	//ProgramNode *programNode = new ProgramNode(blockNode);
-	//StartNode* startNode = new StartNode(programNode);
-	//delete startNode;
-	SymbolTableClass * SymbolTable = new SymbolTableClass();
-	ParserClass * Parser = new ParserClass(scanner, SymbolTable);
-	Parser->Start();
-
-
-	//TokenType tt = VOID_TOKEN;
-	//std::string lexeme = "void";
-	//TokenClass tok1(tt, lexeme);
-	//std::cout << tok1 << std::endl;
+	Interpret("test.txt");
 }
+

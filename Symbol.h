@@ -5,6 +5,7 @@
 class SymbolTableClass {
 
 public:
+	SymbolTableClass();
 	bool Exists(const std::string& s);
 	void AddEntry(const std::string& s);
 	int GetValue(const std::string& s);
@@ -12,12 +13,12 @@ public:
 	int GetIndex(const std::string& s);
 	int GetCount();
 
-private:
 	struct Variable {
 		std::string mLabel;
 		int mValue;
 	};
 
-	std::vector<Variable> mSymbolTable;
 
+private:
+	std::vector<Variable> mSymbolTable;
 };

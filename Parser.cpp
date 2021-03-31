@@ -7,6 +7,10 @@ ParserClass::ParserClass(ScannerClass* Scanner, SymbolTableClass* SymbolTable) {
 	mSymbolTable = SymbolTable;
 }
 
+ParserClass::~ParserClass() {
+
+}
+
 StartNode * ParserClass::Start() {
 	MSG("Parser Starting...")
 	ProgramNode* pn = Program();
@@ -26,9 +30,8 @@ ProgramNode * ParserClass::Program() {
 }
 
 BlockNode * ParserClass::Block() {
-	StatementGroupNode* sgn = StatementGroup();
 	Match(LCURLY_TOKEN);
-	StatementGroup();
+	StatementGroupNode* sgn = StatementGroup();
 	Match(RCURLY_TOKEN);
 	BlockNode* bn = new BlockNode(sgn);
 	return bn;
@@ -52,19 +55,17 @@ StatementNode * ParserClass::Statement() {
 	TokenClass Token = mScanner->PeekNextToken();
 	TokenType tt = Token.GetTokenType();
 	if (tt == INT_TOKEN) {
-		DeclarationStatement();
-		StatementNode* sn = new StatementNode();
-		return sn;
+		StatementNode * ds = DeclarationStatement();
+		return ds;
 	}
 	else if (tt == IDENTIFIER_TOKEN) {
-		AssignmentStatement();
-		StatementNode* sn = new StatementNode();
-		return sn;
+		StatementNode* as = AssignmentStatement();
+		return as;
 	}
 	else if (tt == COUT_TOKEN) {
-		CoutStatement();
-		StatementNode* sn = new StatementNode();
-		return sn;
+	
+	 	StatementNode* cs = CoutStatement();
+		return cs;
 	}
 	else {
 		return NULL;
