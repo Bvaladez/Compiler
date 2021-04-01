@@ -175,7 +175,7 @@ ExpressionNode * ParserClass::Factor() {
 IdentifierNode * ParserClass::Identifier() {
 	TokenClass token = Match(IDENTIFIER_TOKEN);
 	std::string label = token.GetLexeme();
-	IdentifierNode * in = new IdentifierNode(label);
+	IdentifierNode * in = new IdentifierNode(label, mSymbolTable);
 	return in;
 }
 

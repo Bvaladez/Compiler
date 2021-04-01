@@ -149,8 +149,9 @@ int IntegerNode::Evaluate() {
 
 // IDENTIFIER NODE
 
-IdentifierNode::IdentifierNode(std::string label) {
+IdentifierNode::IdentifierNode(std::string label, SymbolTableClass * symbolTable) {
 	mLabel = label;
+	SymbolTable = symbolTable;
 	}
 
 void IdentifierNode::DeclareVariable() {

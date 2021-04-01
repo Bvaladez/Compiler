@@ -152,7 +152,7 @@ private:
 
 class IdentifierNode : public ExpressionNode {
 public:
-	IdentifierNode(std::string label);
+	IdentifierNode(std::string label, SymbolTableClass * symbolTable);
 	void DeclareVariable();
 	void SetValue(int v);
 	int GetIndex();
