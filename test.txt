@@ -1,10 +1,7 @@
 void main(){
 	int sum;
-	// line comment
-	/* This is a comment */
-	sum = 35 + 400;
+	int a;
+	sum = 35;
 	a = 34 - 12;
-	b = 12 / 3;
-	c = 3 * 4;
 	cout << sum;
 }

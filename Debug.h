@@ -1,5 +1,5 @@
 #pragma once
-#define ShowMessages 1 // 0 or 1
+#define ShowMessages 0 // 0 or 1
 
 #include <iostream>
 

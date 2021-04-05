@@ -11,15 +11,15 @@ bool SymbolTableClass::Exists(const std::string& s) {
 		if (mSymbolTable[i].mLabel == s) {
 			return true;
 		}
-		return false;
 	}
+	return false;
 }
 
 void SymbolTableClass::AddEntry(const std::string& s) {
 	if (Exists(s) == false) {
 		Variable v;
 		v.mLabel = s;
-		v.mValue = -1;
+		v.mValue = 0;
 		mSymbolTable.push_back(v);
 	}
 	else {
