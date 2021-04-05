@@ -26,6 +26,9 @@ void TokenClass::CheckReserved() {
 	else if (lexeme == "if") {
 		mType = TokenType::IF_TOKEN;
 	}
+	else if (lexeme == "else") {
+		mType = TokenType::ELSE_TOKEN;
+	}
 	else if (lexeme == "while") {
 		mType = TokenType::WHILE_TOKEN;
 	}

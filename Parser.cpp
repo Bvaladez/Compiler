@@ -249,8 +249,14 @@ IfStatementNode* ParserClass::IfStatement() {
 	Match(LPAREN_TOKEN);
 	ExpressionNode* exp = Expression();
 	Match(RPAREN_TOKEN);
-	BlockNode* bn = Block();
-	IfStatementNode* isn = new IfStatementNode(exp, bn);
+	BlockNode* ibn = Block();
+	if (mScanner->PeekNextToken().GetTokenType() == TokenType::ELSE_TOKEN) {
+		Match(ELSE_TOKEN);
+		BlockNode* ebn = Block();
+		IfStatementNode* iesn = new IfStatementNode(exp, ibn, ebn);
+		return iesn;
+	}
+	IfStatementNode* isn = new IfStatementNode(exp, ibn, NULL);
 	return isn;
 }
 

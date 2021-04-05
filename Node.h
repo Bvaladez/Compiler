@@ -127,13 +127,14 @@ private:
 class IfStatementNode : public StatementNode {
 
 public:
-	IfStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode);
+	IfStatementNode(ExpressionNode* expressionNode, BlockNode* ifBlockNode, BlockNode* elseBlockNode);
 	~IfStatementNode();
 	void Interpret();
 
 private:
 	ExpressionNode* mExpressionNode;
-	BlockNode* mBlockNode;
+	BlockNode* mIfBlockNode;
+	BlockNode* mElseBlockNode;
 };
 
 class WhileStatementNode : public StatementNode {

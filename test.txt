@@ -1,10 +1,9 @@
 void main(){
 	int var;
-	int b;
-	int out;
-	var = 0;
-	b = 0;
-	out = 50;
-	if (var || b){
-		cout <<	out;
+	var = 1;
+	if (var){
+		cout <<	100;
+	}else{
+		cout << 50;	
 	}
+}

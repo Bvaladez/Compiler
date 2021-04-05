@@ -116,9 +116,10 @@ void AssignmentStatementNode::Interpret() {
 }
 
 // IF STATMENT NODE
-IfStatementNode::IfStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode) {
+IfStatementNode::IfStatementNode(ExpressionNode* expressionNode, BlockNode* ifBlockNode, BlockNode* elseBlockNode) {
 	mExpressionNode = expressionNode;
-	mBlockNode = blockNode;
+	mIfBlockNode = ifBlockNode;
+	mElseBlockNode = elseBlockNode;
 }
 
 IfStatementNode::~IfStatementNode() {
@@ -128,7 +129,10 @@ IfStatementNode::~IfStatementNode() {
 
 void IfStatementNode::Interpret() {
 	if (mExpressionNode->Evaluate() == 1) {
-		mBlockNode->Interpret();
+		mIfBlockNode->Interpret();
+	}
+	else if (mElseBlockNode != NULL) {
+		mElseBlockNode->Interpret();
 	}
 }
 
