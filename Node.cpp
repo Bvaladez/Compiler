@@ -1,5 +1,8 @@
+#include <cmath>
+
 #include "Debug.h"
 #include "Node.h" 
+
 
 // BASE NODE
 Node::Node() {
@@ -85,17 +88,22 @@ StatementNode::~StatementNode() {
 }
 
 // DECLARATION STATEMENT NODE
-DeclarationStatementNode::DeclarationStatementNode( IdentifierNode* identifierNode) {
+DeclarationStatementNode::DeclarationStatementNode( IdentifierNode* identifierNode, ExpressionNode* expressionNode) {
 	mIdentifierNode = identifierNode;
+	mExpressionNode = expressionNode;
 }
 
 DeclarationStatementNode::~DeclarationStatementNode() {
 	delete mIdentifierNode;
+	delete mExpressionNode;
 	MSG("Destructing Statement Declaration Statement Node...");
 }
 
 void DeclarationStatementNode::Interpret() {
 	mIdentifierNode->DeclareVariable();
+	if (mExpressionNode != NULL) {
+		mIdentifierNode->SetValue(mExpressionNode->Evaluate());
+	}
 }
 
 // ASSIGNEMNT STATEMENT NODE
@@ -222,6 +230,27 @@ BinaryOperatorNode::~BinaryOperatorNode() {
 	MSG("Destructing Statement Binary Operator Node...");
 }
 
+// BITWISE OR STATMENT NODE
+BitwiseOrNode::BitwiseOrNode(ExpressionNode * lhs, ExpressionNode * rhs) 
+	: BinaryOperatorNode(lhs,rhs){
+}
+
+int BitwiseOrNode::Evaluate() {
+	int retval = mLhs->Evaluate() | mRhs->Evaluate();
+	return retval;
+}
+
+// BITWISE AND STATMENT NODE
+BitwiseAndNode::BitwiseAndNode(ExpressionNode * lhs, ExpressionNode * rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int BitwiseAndNode::Evaluate() {
+	int retval = (mLhs->Evaluate() & mRhs->Evaluate());
+	return retval;
+}
+
+
 // OR STATMENT NODE
 OrNode::OrNode(ExpressionNode * lhs, ExpressionNode * rhs) 
 	: BinaryOperatorNode(lhs,rhs){
@@ -286,6 +315,16 @@ int TimesNode::Evaluate() {
 	int retval = 0;
 	retval += mLhs->Evaluate();
 	retval *= mRhs->Evaluate();
+	return retval;
+}
+
+// EXPONENT STATMENT NODE
+ExpNode::ExpNode(ExpressionNode * lhs, ExpressionNode * rhs) 
+	: BinaryOperatorNode(lhs,rhs){
+}
+
+int ExpNode::Evaluate() {
+	int retval = pow(mLhs->Evaluate(), mRhs->Evaluate());
 	return retval;
 }
 

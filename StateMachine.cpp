@@ -34,6 +34,9 @@ StateMachineClass::StateMachineClass() {
 	// MULTIPLICATION //
 	mLegalMoves[START_STATE][TIMES_CHAR] = MULTIPLICATION_STATE;
 
+	// EXPONENTIATION //
+	mLegalMoves[MULTIPLICATION_STATE][TIMES_CHAR] = EXP_STATE;
+
 	// DIVISION //
 	mLegalMoves[START_STATE][DIVIDE_CHAR] = DIVISION_STATE;
 
@@ -138,6 +141,7 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[ADDITION_STATE] =		PLUS_TOKEN;
 	mCorrespondingTokenTypes[SUBTRACTION_STATE] =	MINUS_TOKEN;
 	mCorrespondingTokenTypes[MULTIPLICATION_STATE] = TIMES_TOKEN;
+	mCorrespondingTokenTypes[EXP_STATE] =			EXP_TOKEN;
 	mCorrespondingTokenTypes[DIVISION_STATE] =		DIVIDE_TOKEN;
 	mCorrespondingTokenTypes[ENDFILE_STATE] =		ENDFILE_TOKEN;
 	mCorrespondingTokenTypes[SEMICOLON_STATE] =		SEMICOLON_TOKEN;
@@ -177,6 +181,8 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = MINUS_CHAR;
 	if (currentCharacter == '*')
 		charType = TIMES_CHAR;
+	if (currentCharacter == '**')
+		charType = EXP_CHAR;
 	if (currentCharacter == '/')
 		charType = DIVIDE_CHAR;
 	if (currentCharacter == ';')

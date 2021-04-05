@@ -23,10 +23,13 @@ public:
 	CoutStatementNode * CoutStatement();
 	ExpressionNode * Expression();
 	ExpressionNode * Relational();
+	ExpressionNode * BitwiseAndStatement();
+	ExpressionNode * BitwiseOrStatement();
 	ExpressionNode * AndStatement();
 	ExpressionNode * OrStatement();
 	ExpressionNode * PlusMinus();
 	ExpressionNode * TimesDivide();
+	ExpressionNode * Exponent();
 	ExpressionNode * Factor();
 	IntegerNode * Integer();
 	IdentifierNode * Identifier();

@@ -18,6 +18,11 @@ class ExpressionNode;
 class IntegerNode;
 class IdentifierNode;
 class BinaryOperatorNode;
+class ExpNode;
+class BitwiseAndNode;
+class BitwiseOrNode;
+class AndNode;
+class OrNode;
 class PlusNode;
 class MinusNode;
 class TimesNode;
@@ -100,12 +105,13 @@ private:
 class DeclarationStatementNode : public StatementNode {
 
 public:
-	DeclarationStatementNode(IdentifierNode* indentifierNode);
+	DeclarationStatementNode(IdentifierNode* indentifierNode, ExpressionNode * expressionNode);
 	virtual ~DeclarationStatementNode();
 	void Interpret();
 
 private:
 	IdentifierNode* mIdentifierNode;
+	ExpressionNode* mExpressionNode;
 
 };
 
@@ -201,6 +207,26 @@ protected:
 private:
 };
 
+class BitwiseAndNode : public BinaryOperatorNode {
+
+public:
+	BitwiseAndNode(ExpressionNode * lhs, ExpressionNode * rhs);
+	virtual int Evaluate();
+
+private:
+};
+
+class BitwiseOrNode : public BinaryOperatorNode {
+
+public:
+	BitwiseOrNode(ExpressionNode * lhs, ExpressionNode * rhs);
+	virtual int Evaluate();
+
+private:
+};
+
+
+
 class AndNode : public BinaryOperatorNode {
 
 public:
@@ -219,7 +245,14 @@ public:
 private:
 };
 
+class ExpNode : public BinaryOperatorNode {
 
+public:
+	ExpNode(ExpressionNode* lhs, ExpressionNode* rhs);
+	virtual int Evaluate();
+
+private:
+};
 
 class PlusNode : public BinaryOperatorNode {
 public:

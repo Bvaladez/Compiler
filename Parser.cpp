@@ -100,7 +100,7 @@ ExpressionNode* ParserClass::OrStatement() {
 }
 
 ExpressionNode* ParserClass::AndStatement() {
-	ExpressionNode* current = Relational();
+	ExpressionNode* current = BitwiseAndStatement();
 	while (true) {
 		TokenType tt = mScanner->PeekNextToken().GetTokenType();
 		if (tt == AND_TOKEN) {
@@ -110,6 +110,19 @@ ExpressionNode* ParserClass::AndStatement() {
 		else {
 			return current;
 		}
+	}
+
+}
+
+ExpressionNode* ParserClass::BitwiseAndStatement() {
+	ExpressionNode* current = Relational();
+	TokenType tt = mScanner->PeekNextToken().GetTokenType();
+	if (tt == BITWISE_AND_TOKEN) {
+		Match(tt);
+		current = new BitwiseAndNode(current, Relational());
+	}
+	else {
+		return current;
 	}
 
 }
@@ -149,18 +162,34 @@ ExpressionNode * ParserClass::Relational() {
 }
 
 ExpressionNode * ParserClass::PlusMinus() {
-	ExpressionNode * current  = TimesDivide();
+	ExpressionNode * current  = Exponent();
 	while (true) {
 		TokenType tt = mScanner->PeekNextToken().GetTokenType();
 		if (tt == PLUS_TOKEN)
 		{
 			Match(tt);
-			current = new PlusNode(current, TimesDivide());
+			current = new PlusNode(current, Exponent());
 		}
 		else if (tt == MINUS_TOKEN)
 		{
 			Match(tt);
-			current = new MinusNode(current, TimesDivide());
+			current = new MinusNode(current, Exponent());
+		}
+		else
+		{
+			return current;
+		}
+	}
+}
+
+ExpressionNode * ParserClass::Exponent() {
+	ExpressionNode * current  = TimesDivide();
+	while (true) {
+		TokenType tt = mScanner->PeekNextToken().GetTokenType();
+		if (tt == EXP_TOKEN)
+		{
+			Match(tt);
+			current = new ExpNode(current, TimesDivide());
 		}
 		else
 		{
@@ -228,8 +257,17 @@ IntegerNode * ParserClass::Integer() {
 DeclarationStatementNode * ParserClass::DeclarationStatement() {
 	Match(INT_TOKEN);
 	IdentifierNode * in = Identifier();
+	// Give it an itial value
+	if (mScanner->PeekNextToken().GetTokenType() == ASSIGNMENT_TOKEN) {
+		Match(ASSIGNMENT_TOKEN);
+		ExpressionNode* exp = Expression();
+		Match(SEMICOLON_TOKEN);
+		DeclarationStatementNode* dn = new DeclarationStatementNode(in, exp);
+		return dn;
+	}
+	// Dont give it an initial value
 	Match(SEMICOLON_TOKEN);
-	DeclarationStatementNode* dn = new DeclarationStatementNode(in);
+	DeclarationStatementNode* dn = new DeclarationStatementNode(in, NULL);
 	return dn;
 }
 
