@@ -115,6 +115,40 @@ void AssignmentStatementNode::Interpret() {
 	mIdentifierNode->SetValue(value);
 }
 
+// IF STATMENT NODE
+IfStatementNode::IfStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode) {
+	mExpressionNode = expressionNode;
+	mBlockNode = blockNode;
+}
+
+IfStatementNode::~IfStatementNode() {
+	delete mExpressionNode;
+	MSG("Destructing Statement If Statement Node...");
+}
+
+void IfStatementNode::Interpret() {
+	if (mExpressionNode->Evaluate() == 1) {
+		mBlockNode->Interpret();
+	}
+}
+
+// WHILE STATEMENT NODE
+WhileStatementNode::WhileStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode) {
+	mExpressionNode = expressionNode;
+	mBlockNode = blockNode;
+}
+
+WhileStatementNode::~WhileStatementNode() {
+	delete mExpressionNode;
+	MSG("Destructing Statement While Statement Node...");
+}
+
+void WhileStatementNode::Interpret() {
+	while (mExpressionNode->Evaluate() == 1) {
+		mBlockNode->Interpret();
+	}
+}
+
 // COUT STATEMENT NODE
 CoutStatementNode::CoutStatementNode(ExpressionNode* expressionNode) {
 	mExpressionNode = expressionNode;
@@ -127,7 +161,8 @@ CoutStatementNode::~CoutStatementNode() {
 
 void CoutStatementNode::Interpret() {
 	int value = mExpressionNode->Evaluate();
-	std::cout << value << '\r';
+	//std::cout << value << '\r';
+	std::cout << value << std::endl;
 }
 
 
@@ -183,6 +218,33 @@ BinaryOperatorNode::~BinaryOperatorNode() {
 	MSG("Destructing Statement Binary Operator Node...");
 }
 
+// OR STATMENT NODE
+OrNode::OrNode(ExpressionNode * lhs, ExpressionNode * rhs) 
+	: BinaryOperatorNode(lhs,rhs){
+}
+
+int OrNode::Evaluate() {
+	int retval = 0;
+	if (mLhs->Evaluate() == 1 || mRhs->Evaluate() == 1) {
+		retval = 1;
+	}
+	return retval;
+}
+
+// AND STATMENT NODE
+AndNode::AndNode(ExpressionNode * lhs, ExpressionNode * rhs)
+	: BinaryOperatorNode(lhs, rhs){
+}
+
+int AndNode::Evaluate() {
+	int retval = 0;
+	if (mLhs->Evaluate() == 1 && mRhs->Evaluate() == 1) {
+		retval = 1;
+	}
+	return retval;
+}
+
+
 
 // PLUS NODE
 
@@ -205,8 +267,8 @@ MinusNode::MinusNode(ExpressionNode* lhs, ExpressionNode* rhs)
 
 int MinusNode::Evaluate() {
 	int retval = 0;
+	retval += mLhs->Evaluate();
 	retval -= mRhs->Evaluate();
-	retval -= mLhs->Evaluate();
 	return retval;
 }
 
@@ -218,8 +280,8 @@ TimesNode::TimesNode(ExpressionNode* lhs, ExpressionNode* rhs)
 
 int TimesNode::Evaluate() {
 	int retval = 0;
+	retval += mLhs->Evaluate();
 	retval *= mRhs->Evaluate();
-	retval *= mLhs->Evaluate();
 	return retval;
 }
 
@@ -231,8 +293,8 @@ DivideNode::DivideNode(ExpressionNode* lhs, ExpressionNode* rhs)
 
 int DivideNode::Evaluate() {
 	int retval = 0;
+	retval += mLhs->Evaluate();
 	retval /= mRhs->Evaluate();
-	retval /= mLhs->Evaluate();
 	return retval;
 }
 

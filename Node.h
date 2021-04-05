@@ -11,6 +11,8 @@ class BlockNode;
 class StatementGroupNode;
 class DeclarationStatementNode;
 class AssignmentStateNode;
+class IfStatementNode;
+class WhileStatementNode;
 class CoutStatementNode;
 class ExpressionNode;
 class IntegerNode;
@@ -122,6 +124,30 @@ private:
 
 };
 
+class IfStatementNode : public StatementNode {
+
+public:
+	IfStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode);
+	~IfStatementNode();
+	void Interpret();
+
+private:
+	ExpressionNode* mExpressionNode;
+	BlockNode* mBlockNode;
+};
+
+class WhileStatementNode : public StatementNode {
+
+public:
+	WhileStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode);
+	~WhileStatementNode();
+	void Interpret();
+
+private:
+	ExpressionNode* mExpressionNode;
+	BlockNode* mBlockNode;
+};
+
 class CoutStatementNode : public StatementNode {
 
 public:
@@ -173,6 +199,26 @@ protected:
 	ExpressionNode * mLhs;
 private:
 };
+
+class AndNode : public BinaryOperatorNode {
+
+public:
+	AndNode(ExpressionNode * lhs, ExpressionNode * rhs);
+	virtual int Evaluate();
+
+private:
+};
+
+class OrNode : public BinaryOperatorNode {
+
+public:
+	OrNode(ExpressionNode * lhs, ExpressionNode * rhs);
+	virtual int Evaluate();
+
+private:
+};
+
+
 
 class PlusNode : public BinaryOperatorNode {
 public:

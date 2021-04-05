@@ -1,5 +1,11 @@
 void main(){
-	int static;
-	static = 5 + 10;
-	cout << static;
+	int var;
+	int b;
+	int out;
+	var = 0;
+	b = 0;
+	out = 50;
+	if (var || b){
+		cout <<	out;
+	}
 }

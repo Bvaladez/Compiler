@@ -23,6 +23,12 @@ void TokenClass::CheckReserved() {
 	else if (lexeme == "cout") {
 		mType = TokenType::COUT_TOKEN;
 	}
+	else if (lexeme == "if") {
+		mType = TokenType::IF_TOKEN;
+	}
+	else if (lexeme == "while") {
+		mType = TokenType::WHILE_TOKEN;
+	}
 	return;
 }
 

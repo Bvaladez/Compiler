@@ -67,6 +67,14 @@ StatementNode * ParserClass::Statement() {
 	 	StatementNode* cs = CoutStatement();
 		return cs;
 	}
+	else if (tt == IF_TOKEN) {
+		StatementNode* is = IfStatement();
+		return is;
+	}
+	else if (tt == WHILE_TOKEN) {
+		StatementNode* ws = WhileStatement();
+		return ws;
+	}
 	else {
 		return NULL;
 	}
@@ -74,7 +82,36 @@ StatementNode * ParserClass::Statement() {
 }
 
 ExpressionNode *  ParserClass::Expression() {
-	return Relational();
+	return OrStatement();
+}
+
+ExpressionNode* ParserClass::OrStatement() {
+	ExpressionNode* current = AndStatement();
+	while (true) {
+		TokenType tt = mScanner->PeekNextToken().GetTokenType();
+		if (tt == OR_TOKEN) {
+			Match(tt);
+			current = new OrNode(current, AndStatement());
+		}
+		else {
+			return current;
+		}
+	}
+}
+
+ExpressionNode* ParserClass::AndStatement() {
+	ExpressionNode* current = Relational();
+	while (true) {
+		TokenType tt = mScanner->PeekNextToken().GetTokenType();
+		if (tt == AND_TOKEN) {
+			Match(tt);
+			current = new AndNode(current, Relational());
+		}
+		else {
+			return current;
+		}
+	}
+
 }
 
 ExpressionNode * ParserClass::Relational() {
@@ -205,6 +242,26 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
 	// Takes identifier node then a expression node
 	AssignmentStatementNode* asn = new AssignmentStatementNode(in, exp);
 	return asn;
+}
+
+IfStatementNode* ParserClass::IfStatement() {
+	Match(IF_TOKEN);
+	Match(LPAREN_TOKEN);
+	ExpressionNode* exp = Expression();
+	Match(RPAREN_TOKEN);
+	BlockNode* bn = Block();
+	IfStatementNode* isn = new IfStatementNode(exp, bn);
+	return isn;
+}
+
+WhileStatementNode* ParserClass::WhileStatement() {
+	Match(WHILE_TOKEN);
+	Match(LPAREN_TOKEN);
+	ExpressionNode* exp = Expression();
+	Match(RPAREN_TOKEN);
+	BlockNode* bn = Block();
+	WhileStatementNode* wsn = new WhileStatementNode(exp, bn);
+	return wsn;
 }
 
 CoutStatementNode * ParserClass::CoutStatement() {

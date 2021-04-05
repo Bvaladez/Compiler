@@ -73,6 +73,17 @@ StateMachineClass::StateMachineClass() {
 		mLegalMoves[LINECOMMENT_STATE][NEWLINE_CHAR] = START_STATE;
 
 
+	// & //
+		mLegalMoves[START_STATE][BITWISE_AND_CHAR] = BITWISE_AND_STATE;
+
+	// && //
+		mLegalMoves[BITWISE_AND_STATE][BITWISE_AND_CHAR] = AND_STATE;
+
+	// | //
+		mLegalMoves[START_STATE][BITWISE_OR_CHAR] = BITWISE_OR_STATE;
+	// || //
+		mLegalMoves[BITWISE_OR_STATE][BITWISE_OR_CHAR] = OR_STATE;
+
 	// SEMICOLON //
 	mLegalMoves[START_STATE][SEMICOLON_CHAR] = SEMICOLON_STATE;
 
@@ -142,6 +153,10 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[ASSIGNMENT_STATE] =	ASSIGNMENT_TOKEN;
 	mCorrespondingTokenTypes[EQUAL_STATE] =			EQUAL_TOKEN;
 	mCorrespondingTokenTypes[NOTEQUAL_STATE] =		NOTEQUAL_TOKEN;
+	mCorrespondingTokenTypes[BITWISE_AND_STATE] =	BITWISE_AND_TOKEN;
+	mCorrespondingTokenTypes[BITWISE_OR_STATE] =	BITWISE_OR_TOKEN;
+	mCorrespondingTokenTypes[AND_STATE] =			AND_TOKEN;
+	mCorrespondingTokenTypes[OR_STATE] =			OR_TOKEN;
 
 
 }
@@ -182,6 +197,14 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = LCURLY_CHAR;
 	if (currentCharacter == '}')
 		charType = RCURLY_CHAR;
+	if (currentCharacter == '|')
+		charType = BITWISE_OR_CHAR;
+	if (currentCharacter == '||')
+		charType = OR_CHAR;
+	if (currentCharacter == '&')
+		charType = BITWISE_AND_CHAR;
+	if (currentCharacter == '&&')
+		charType = AND_CHAR;
 	//with out newline char we get regular scanning but loose line comments
 	if (currentCharacter == '\n')
 		charType = NEWLINE_CHAR;
