@@ -1,7 +1,5 @@
 void main(){
-	int sum;
-	int a;
-	sum = 35;
-	a = 34 - 12;
-	cout << sum;
+	int static;
+	static = 5 + 10;
+	cout << static;
 }
