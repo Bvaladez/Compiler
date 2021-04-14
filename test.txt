@@ -1,9 +1,8 @@
 void main(){
 	int var;
-	var = 1;
-	if (var){
-		cout <<	100;
-	}else{
-		cout << 50;	
+	var = 20;
+	while ( var > 0 ){
+		cout << var;	
+		var = var - 1;
 	}
 }
