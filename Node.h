@@ -158,6 +158,7 @@ public:
 	WhileStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode);
 	~WhileStatementNode();
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 
 private:
 	ExpressionNode* mExpressionNode;

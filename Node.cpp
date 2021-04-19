@@ -183,7 +183,6 @@ void IfStatementNode::Code(InstructionsClass& machineCode) {
 	mIfBlockNode->Code(machineCode);
 	unsigned char* address2 = machineCode.GetAddress();
 	machineCode.SetOffset(InsertAddress, (int)(address2 - address1));
-
 }
 
 // WHILE STATEMENT NODE
@@ -201,6 +200,19 @@ void WhileStatementNode::Interpret() {
 	while (mExpressionNode->Evaluate() == 1) {
 		mBlockNode->Interpret();
 	}
+}
+
+void WhileStatementNode::Code(InstructionsClass& machineCode) {
+	unsigned char* address1 = machineCode.GetAddress();
+	mExpressionNode->CodeEvaluate(machineCode);
+	unsigned char* InsertAddressToSkip = machineCode.SkipIfZeroStack();
+	unsigned char* address2 = machineCode.GetAddress();
+	mBlockNode->Code(machineCode);
+	unsigned char* InsertAddressToJump = machineCode.Jump();
+	unsigned char* address3 = machineCode.GetAddress();
+	machineCode.SetOffset(InsertAddressToSkip, (int)(address3 - address2));
+	machineCode.SetOffset(InsertAddressToJump, (int)(address1 - address3));
+
 }
 
 // COUT STATEMENT NODE
