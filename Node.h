@@ -77,7 +77,7 @@ class StatementNode : public Node {
 public:
 	StatementNode();
 	virtual ~StatementNode();
-	void Code(InstructionsClass & machineCode);
+	virtual void Code(InstructionsClass & machineCode)=0;
 
 private:
 
@@ -168,13 +168,13 @@ private:
 class CoutStatementNode : public StatementNode {
 
 public:
-	CoutStatementNode(ExpressionNode* expressionNode);
+	CoutStatementNode(std::vector<ExpressionNode*> expressionNodes);
 	~CoutStatementNode();
 	void Interpret();
 	void Code(InstructionsClass & machineCode);
 	
 private:
-	ExpressionNode* mExpressionNode;
+	std::vector<ExpressionNode*> mExpressionNodes;
 };
 
 class ExpressionNode {
@@ -190,7 +190,7 @@ class IntegerNode : public ExpressionNode {
 public:
 	IntegerNode(int val);
 	virtual int Evaluate();
-	void CodeEvaluate(InstructionsClass& machineCode);
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 	int mInteger;
@@ -216,6 +216,7 @@ class BinaryOperatorNode : public ExpressionNode {
 public:
 	BinaryOperatorNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	~BinaryOperatorNode();
+
 protected:
 	ExpressionNode * mRhs;
 	ExpressionNode * mLhs;
@@ -227,6 +228,7 @@ class BitwiseAndNode : public BinaryOperatorNode {
 public:
 	BitwiseAndNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 };
@@ -236,6 +238,7 @@ class BitwiseOrNode : public BinaryOperatorNode {
 public:
 	BitwiseOrNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 };
@@ -247,6 +250,7 @@ class AndNode : public BinaryOperatorNode {
 public:
 	AndNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 };
@@ -256,6 +260,7 @@ class OrNode : public BinaryOperatorNode {
 public:
 	OrNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 };
@@ -265,6 +270,7 @@ class ExpNode : public BinaryOperatorNode {
 public:
 	ExpNode(ExpressionNode* lhs, ExpressionNode* rhs);
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 };
@@ -273,6 +279,7 @@ class PlusNode : public BinaryOperatorNode {
 public:
 	PlusNode(ExpressionNode * lhs, ExpressionNode * rhs);
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 
@@ -282,6 +289,8 @@ class MinusNode : public BinaryOperatorNode {
 public:
 	MinusNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -289,6 +298,8 @@ class TimesNode : public BinaryOperatorNode {
 public:
 	TimesNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -296,6 +307,8 @@ class DivideNode : public BinaryOperatorNode {
 public:
 	DivideNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -303,6 +316,8 @@ class LessNode : public BinaryOperatorNode {
 public:
 	LessNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -310,6 +325,8 @@ class LessEqualNode : public BinaryOperatorNode {
 public:
 	LessEqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -317,6 +334,8 @@ class GreaterNode : public BinaryOperatorNode {
 public:
 	GreaterNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -324,6 +343,8 @@ class GreaterEqualNode : public BinaryOperatorNode {
 public:
 	GreaterEqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -331,6 +352,8 @@ class EqualNode : public BinaryOperatorNode {
 public:
 	EqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
 
@@ -338,10 +361,9 @@ class NotEqualNode : public BinaryOperatorNode {
 public:
 	NotEqualNode(ExpressionNode *lhs, ExpressionNode *rhs );
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 };
-
-
-
 
 

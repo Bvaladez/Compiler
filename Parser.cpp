@@ -309,11 +309,30 @@ WhileStatementNode* ParserClass::WhileStatement() {
 }
 
 CoutStatementNode * ParserClass::CoutStatement() {
+	std::vector<ExpressionNode*> Expressions;
 	Match(COUT_TOKEN);
-	Match(INSERTION_TOKEN);
-	ExpressionNode * exp = Expression();
+	TokenType tt;
+	TokenType el;
+	do{
+		tt = mScanner->PeekNextToken().GetTokenType();
+		if (tt == TokenType::INSERTION_TOKEN) {
+			Match(INSERTION_TOKEN);
+			el = mScanner->PeekNextToken().GetTokenType();
+			if (el == TokenType::ENDL_TOKEN) {
+				Match(ENDL_TOKEN);
+				Expressions.push_back(NULL);
+			}
+			else {
+				ExpressionNode * exp = Expression();
+				Expressions.push_back(exp);
+			}
+
+
+		}
+
+	} while (tt == TokenType::INSERTION_TOKEN );
 	Match(SEMICOLON_TOKEN);
-	CoutStatementNode* csn = new CoutStatementNode(exp);
+	CoutStatementNode* csn = new CoutStatementNode(Expressions);
 	return csn;
 }
 

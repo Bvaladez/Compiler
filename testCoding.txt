@@ -1,0 +1,21 @@
+void main(){
+	int a = 4;
+	int b = 2;
+	
+	cout << a + b;
+	cout << a - b;
+	cout << a * b;
+	cout << a / b;
+	
+	cout << a > b;
+	cout << a < b;
+	cout << a >= b;
+	cout << a <= b;
+
+	cout << a == b;
+	cout << a != b;
+	while(a <= 20){
+		cout << a;
+		a = a + 1;
+	}
+}

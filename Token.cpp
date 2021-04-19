@@ -23,6 +23,9 @@ void TokenClass::CheckReserved() {
 	else if (lexeme == "cout") {
 		mType = TokenType::COUT_TOKEN;
 	}
+	else if (lexeme == "endl") {
+		mType = TokenType::ENDL_TOKEN;
+	}
 	else if (lexeme == "if") {
 		mType = TokenType::IF_TOKEN;
 	}

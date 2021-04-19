@@ -131,7 +131,7 @@ void InstructionsClass::Execute()
 	void (*f)(void);
 	f = (void (*)(void)) ptr;
 	f();
-	cout << "\nThere and back again!" << endl << endl;
+	cout << "\nCode Execution finished" << endl << endl;
 }
 
 void InstructionsClass::PrintAllMachineCodes()
@@ -237,7 +237,7 @@ void InstructionsClass::PopPopSubPush()
 
 void InstructionsClass::PopPopMulPush()
 {
-	Encode(POP_EAX);
+	Encode(POP_EBX);
 	Encode(POP_EAX);
 	Encode(MUL_EAX_EBX1);
 	Encode(MUL_EAX_EBX2); 
