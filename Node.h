@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "Symbol.h"
+#include "instructions.h"
 
 class Node;
 class StatementNode;
@@ -39,6 +40,7 @@ class Node {
 
 public:
 	Node();
+	virtual void Code(InstructionsClass & machineCode) = 0;
 	virtual void Interpret() = 0;
 	virtual ~Node();
 private:
@@ -51,6 +53,7 @@ public:
 	StartNode(ProgramNode *programNode);
 	virtual ~StartNode();
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 
 private:
 	ProgramNode *mProgramNode;
@@ -63,6 +66,7 @@ public:
 	ProgramNode(BlockNode *blockNode);
 	virtual ~ProgramNode();
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 
 private:
 	BlockNode *mBlockNode;
@@ -73,6 +77,7 @@ class StatementNode : public Node {
 public:
 	StatementNode();
 	virtual ~StatementNode();
+	void Code(InstructionsClass & machineCode);
 
 private:
 
@@ -84,6 +89,7 @@ public:
 	BlockNode(StatementGroupNode *statementGroupNode);
 	virtual ~BlockNode();
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 
 private:
 	StatementGroupNode *mStatementGroupNode;
@@ -96,6 +102,7 @@ public:
 	virtual ~StatementGroupNode();
 	void addStatement(StatementNode *statementNode);
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 	
 private:
 	std::vector<StatementNode*> mStatementNodes;
@@ -108,6 +115,7 @@ public:
 	DeclarationStatementNode(IdentifierNode* indentifierNode, ExpressionNode * expressionNode);
 	virtual ~DeclarationStatementNode();
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 
 private:
 	IdentifierNode* mIdentifierNode;
@@ -122,7 +130,7 @@ public:
 	// might not need a destructor because it inherits from node
 	~AssignmentStatementNode();
 	void Interpret();
-
+	void Code(InstructionsClass & machineCode);
 
 private:
 	IdentifierNode* mIdentifierNode;
@@ -136,6 +144,7 @@ public:
 	IfStatementNode(ExpressionNode* expressionNode, BlockNode* ifBlockNode, BlockNode* elseBlockNode);
 	~IfStatementNode();
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 
 private:
 	ExpressionNode* mExpressionNode;
@@ -161,6 +170,7 @@ public:
 	CoutStatementNode(ExpressionNode* expressionNode);
 	~CoutStatementNode();
 	void Interpret();
+	void Code(InstructionsClass & machineCode);
 	
 private:
 	ExpressionNode* mExpressionNode;
@@ -170,6 +180,7 @@ class ExpressionNode {
 public:
 	virtual int Evaluate() = 0;
 	virtual ~ExpressionNode();
+	virtual void CodeEvaluate(InstructionsClass& machineCode) = 0;
 
 private:
 };
@@ -178,6 +189,7 @@ class IntegerNode : public ExpressionNode {
 public:
 	IntegerNode(int val);
 	virtual int Evaluate();
+	void CodeEvaluate(InstructionsClass& machineCode);
 
 private:
 	int mInteger;
@@ -190,6 +202,8 @@ public:
 	void SetValue(int v);
 	int GetIndex();
 	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
 private:
 	std::string mLabel;
 	SymbolTableClass* SymbolTable;

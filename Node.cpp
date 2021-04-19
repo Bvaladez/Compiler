@@ -27,6 +27,10 @@ void StartNode::Interpret() {
 	mProgramNode->Interpret();
 }
 
+void StartNode::Code(InstructionsClass& machineCode) {
+	mProgramNode->Code(machineCode);
+}
+
 // PROGRAM NODE
 ProgramNode::ProgramNode(BlockNode* blockNode) {
 	mBlockNode = blockNode;
@@ -40,6 +44,11 @@ ProgramNode::~ProgramNode() {
 void ProgramNode::Interpret() {
 	mBlockNode->Interpret();
 }
+
+void ProgramNode::Code(InstructionsClass& machineCode) {
+	mBlockNode->Code(machineCode);
+}
+
 
 // BLOCK NODE
 BlockNode::BlockNode(StatementGroupNode* statementGroupNode) {
@@ -55,6 +64,9 @@ void BlockNode::Interpret() {
 	mStatementGroupNode->Interpret();
 }
 
+void BlockNode::Code(InstructionsClass& machineCode) {
+	mStatementGroupNode->Code(machineCode);
+}
 
 // STATEMENT GROUP NODE
 StatementGroupNode::StatementGroupNode() {
@@ -78,6 +90,11 @@ void StatementGroupNode::Interpret() {
 	}
 }
 
+void StatementGroupNode::Code(InstructionsClass& machineCode) {
+	for (int i = 0; i < mStatementNodes.size(); i++) {
+		mStatementNodes[i]->Code(machineCode);
+	}
+}
 // STATEMENT NODE 
 StatementNode::StatementNode() {
 
@@ -106,6 +123,15 @@ void DeclarationStatementNode::Interpret() {
 	}
 }
 
+void DeclarationStatementNode::Code(InstructionsClass& machineCode) {
+	mIdentifierNode->DeclareVariable();
+	if (mExpressionNode != NULL) {
+		mExpressionNode->CodeEvaluate(machineCode);
+		int index = mIdentifierNode->GetIndex();
+		machineCode.PopAndStore(index);
+	}
+}
+
 // ASSIGNEMNT STATEMENT NODE
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode* identifierNode, ExpressionNode* expressionNode){
 	mIdentifierNode = identifierNode;
@@ -123,6 +149,11 @@ void AssignmentStatementNode::Interpret() {
 	mIdentifierNode->SetValue(value);
 }
 
+void AssignmentStatementNode::Code(InstructionsClass& machineCode) {
+	mExpressionNode->CodeEvaluate(machineCode);
+	int index = mIdentifierNode->GetIndex();
+	machineCode.PopAndStore(index);
+}
 // IF STATMENT NODE
 IfStatementNode::IfStatementNode(ExpressionNode* expressionNode, BlockNode* ifBlockNode, BlockNode* elseBlockNode) {
 	mExpressionNode = expressionNode;
@@ -142,6 +173,17 @@ void IfStatementNode::Interpret() {
 	else if (mElseBlockNode != NULL) {
 		mElseBlockNode->Interpret();
 	}
+}
+
+void IfStatementNode::Code(InstructionsClass& machineCode) {
+	//else statements will not work with current coding
+	mExpressionNode->CodeEvaluate(machineCode);
+	unsigned char* InsertAddress = machineCode.SkipIfZeroStack();
+	unsigned char* address1 = machineCode.GetAddress();
+	mIfBlockNode->Code(machineCode);
+	unsigned char* address2 = machineCode.GetAddress();
+	machineCode.SetOffset(InsertAddress, (int)(address2 - address1));
+
 }
 
 // WHILE STATEMENT NODE
@@ -177,6 +219,10 @@ void CoutStatementNode::Interpret() {
 	std::cout << value << std::endl;
 }
 
+void CoutStatementNode::Code(InstructionsClass& machineCode) {
+	mExpressionNode->CodeEvaluate(machineCode);
+	machineCode.PopAndWrite(); 
+}
 
 // EXPRESSION NODE
 ExpressionNode::~ExpressionNode() {
