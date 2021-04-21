@@ -328,6 +328,7 @@ WhileStatementNode* ParserClass::WhileStatement() {
 	return wsn;
 }
 
+// Cout statements must be followed by at least 1 insertion operator then either a expression or endl.
 CoutStatementNode * ParserClass::CoutStatement() {
 	std::vector<ExpressionNode*> Expressions;
 	Match(COUT_TOKEN);

@@ -1,7 +1,7 @@
 void main(){
 	int a = 4;
 	int b = 2;
-	
+	cout << ;	
 	cout << a + b << endl;
 	cout << a - b << endl;
 	cout << a * b << endl;

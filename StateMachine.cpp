@@ -134,7 +134,7 @@ StateMachineClass::StateMachineClass() {
 	// } //
 	mLegalMoves[START_STATE][RCURLY_CHAR] = RCURLY_STATE; 
 
-	// SET STATES CORRESPONDING TOKENS
+	// SET STATES CORRESPONDING TO TOKENS
 	for (int STATE = 0; STATE < LAST_STATE; STATE++) {
 		mCorrespondingTokenTypes[STATE] = BAD_TOKEN;
 	}
@@ -169,6 +169,7 @@ StateMachineClass::StateMachineClass() {
 
 }
 
+// Update the statmachine converting the corresponding char into declared char names
 MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &correspondingTokenType) {
 	
 	CharacterType charType = BAD_CHAR;
@@ -225,7 +226,7 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 	// eof char
 	if (currentCharacter == EOF)
 		charType = ENDFILE_CHAR;
-// first we set the referenced corresponding token type to know the last token
+	// first we set the referenced corresponding token type to know the last token
 	correspondingTokenType = mCorrespondingTokenTypes[mCurrentState];
 	// then we update the state with the new state
 	mCurrentState = mLegalMoves[mCurrentState][charType];
