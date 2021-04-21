@@ -11,6 +11,10 @@
 #include <string>
 #include <iostream>
 
+enum {
+	interpret, compile
+};
+
 void CodeAndExecute(std::string inputFile)
 {
 	// Create scanner, symbol table, and parser objects.
@@ -25,7 +29,9 @@ void CodeAndExecute(std::string inputFile)
 	InstructionsClass machineCode;
 	root->Code(machineCode);
 	machineCode.Finish();
-	machineCode.PrintAllMachineCodes();
+	if (ShowCode) {
+		machineCode.PrintAllMachineCodes();
+	}
 
 	// Execute the machine code instructions previously created
 	machineCode.Execute();
@@ -52,6 +58,6 @@ void Interpret(std::string inputFile) {
 
 int main() {
 	//Interpret("testPE.txt");
-	CodeAndExecute("testPE.txt");
+	CodeAndExecute("testCoding.txt");
 }
 

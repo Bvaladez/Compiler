@@ -2,20 +2,20 @@ void main(){
 	int a = 4;
 	int b = 2;
 	
-	cout << a + b;
-	cout << a - b;
-	cout << a * b;
-	cout << a / b;
+	cout << a + b << endl;
+	cout << a - b << endl;
+	cout << a * b << endl;
+	cout << a / b << endl;
 	
-	cout << a > b;
-	cout << a < b;
-	cout << a >= b;
-	cout << a <= b;
+	cout << a > b << endl;
+	cout << a < b << endl;
+	cout << a >= b << endl;
+	cout << a <= b << endl;
 
-	cout << a == b;
-	cout << a != b;
+	cout << a == b << endl;
+	cout << a != b << endl;
 	while(a <= 20){
-		cout << a;
+		cout << a << endl;
 		a = a + 1;
 	}
 }
