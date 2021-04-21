@@ -19,7 +19,7 @@ public:
 	DeclarationStatementNode * DeclarationStatement();
 	StatementNode * AssignmentStatement();
 	IfStatementNode* IfStatement();
-		WhileStatementNode * WhileStatement();
+	WhileStatementNode * WhileStatement();
 	CoutStatementNode * CoutStatement();
 	ExpressionNode * Expression();
 	ExpressionNode * Relational();
