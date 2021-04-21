@@ -1,0 +1,7 @@
+void main(){
+	int var = 5;
+	var += 5;
+	cout << var << endl;
+	var -= 5;
+	cout << var << endl;
+}

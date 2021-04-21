@@ -51,7 +51,7 @@ void Interpret(std::string inputFile) {
 }
 
 int main() {
-	//Interpret("test.txt");
-	CodeAndExecute("testCout.txt");
+	//Interpret("testPE.txt");
+	CodeAndExecute("testPE.txt");
 }
 

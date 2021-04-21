@@ -271,15 +271,35 @@ DeclarationStatementNode * ParserClass::DeclarationStatement() {
 	return dn;
 }
 
-AssignmentStatementNode * ParserClass::AssignmentStatement() {
+StatementNode * ParserClass::AssignmentStatement() {
 	IdentifierNode * in = Identifier();
-	Match(ASSIGNMENT_TOKEN);
-	ExpressionNode * exp = Expression();
-	Match(SEMICOLON_TOKEN);
+	TokenType tt = mScanner->PeekNextToken().GetTokenType();
+	if (tt == TokenType::ASSIGNMENT_TOKEN) {
+		Match(ASSIGNMENT_TOKEN);
+		ExpressionNode * exp = Expression();
+		Match(SEMICOLON_TOKEN);
 	
-	// Takes identifier node then a expression node
-	AssignmentStatementNode* asn = new AssignmentStatementNode(in, exp);
-	return asn;
+		// Takes identifier node then a expression node
+		AssignmentStatementNode* asn = new AssignmentStatementNode(in, exp);
+		return asn;
+	}
+	else if (tt == TokenType::PLUSEQUAL_TOKEN) {
+		Match(PLUSEQUAL_TOKEN);
+		ExpressionNode* exp = Expression();
+		Match(SEMICOLON_TOKEN);
+
+		PlusEqualStatementNode* pesn = new PlusEqualStatementNode(in, exp);
+		return pesn;
+	}
+	else if (tt == TokenType::MINUSEQUAL_TOKEN) {
+		Match(MINUSEQUAL_TOKEN);
+		ExpressionNode* exp = Expression();
+		Match(SEMICOLON_TOKEN);
+
+		MinusEqualStatementNode* mesn = new MinusEqualStatementNode(in, exp);
+		return mesn;
+	}
+
 }
 
 IfStatementNode* ParserClass::IfStatement() {

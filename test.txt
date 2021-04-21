@@ -2,7 +2,7 @@ void main(){
 	int var;
 	var = 20;
 	while ( var > 0 ){
-		cout << var;	
+		cout << var << endl;	
 		var = var - 1;
 	}
 }

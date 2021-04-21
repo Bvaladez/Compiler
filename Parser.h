@@ -17,7 +17,7 @@ public:
 	StatementGroupNode * StatementGroup();
 	StatementNode * Statement();
 	DeclarationStatementNode * DeclarationStatement();
-	AssignmentStatementNode * AssignmentStatement();
+	StatementNode * AssignmentStatement();
 	IfStatementNode* IfStatement();
 		WhileStatementNode * WhileStatement();
 	CoutStatementNode * CoutStatement();

@@ -27,9 +27,11 @@ StateMachineClass::StateMachineClass() {
 
 	// ADDITION //
 	mLegalMoves[START_STATE][PLUS_CHAR] = ADDITION_STATE;
+	mLegalMoves[ADDITION_STATE][ASSIGNMENT_CHAR] = PLUSEQUAL_STATE;
 	
 	// SUBTRACTION //
 	mLegalMoves[START_STATE][MINUS_CHAR] = SUBTRACTION_STATE;
+	mLegalMoves[SUBTRACTION_STATE][ASSIGNMENT_CHAR] = MINUSEQUAL_STATE;
 	
 	// MULTIPLICATION //
 	mLegalMoves[START_STATE][TIMES_CHAR] = MULTIPLICATION_STATE;
@@ -139,7 +141,9 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[IDENTIFIER_STATE] =	IDENTIFIER_TOKEN;
 	mCorrespondingTokenTypes[INTEGER_STATE] =		INTEGER_TOKEN;
 	mCorrespondingTokenTypes[ADDITION_STATE] =		PLUS_TOKEN;
+	mCorrespondingTokenTypes[PLUSEQUAL_STATE] =		PLUSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[SUBTRACTION_STATE] =	MINUS_TOKEN;
+	mCorrespondingTokenTypes[MINUSEQUAL_STATE] =	MINUSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[MULTIPLICATION_STATE] = TIMES_TOKEN;
 	mCorrespondingTokenTypes[EXP_STATE] =			EXP_TOKEN;
 	mCorrespondingTokenTypes[DIVISION_STATE] =		DIVIDE_TOKEN;
@@ -177,8 +181,12 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = WHITESPACE_CHAR;
 	if (currentCharacter == '+')
 		charType = PLUS_CHAR;
+	if (currentCharacter == '+=')
+		charType = PLUSEQUAL_CHAR;
 	if (currentCharacter == '-')
 		charType = MINUS_CHAR;
+	if (currentCharacter == '-=')
+		charType = MINUSEQUAL_CHAR;
 	if (currentCharacter == '*')
 		charType = TIMES_CHAR;
 	if (currentCharacter == '**')

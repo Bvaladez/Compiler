@@ -162,6 +162,7 @@
     <Text Include="test.txt" />
     <Text Include="testCoding.txt" />
     <Text Include="testCout.txt" />
+    <Text Include="testPE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

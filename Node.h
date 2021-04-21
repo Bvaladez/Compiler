@@ -138,6 +138,35 @@ private:
 
 };
 
+class PlusEqualStatementNode : public StatementNode {
+
+public:
+	PlusEqualStatementNode(IdentifierNode* indentifierNode, ExpressionNode* expressionNode);
+	~PlusEqualStatementNode();
+	void Interpret();
+	void Code(InstructionsClass & machineCode);
+
+private:
+	IdentifierNode* mIdentifierNode;
+	ExpressionNode* mExpressionNode;
+
+};
+
+class MinusEqualStatementNode : public StatementNode {
+
+public:
+	MinusEqualStatementNode(IdentifierNode* indentifierNode, ExpressionNode* expressionNode);
+	~MinusEqualStatementNode();
+	void Interpret();
+	void Code(InstructionsClass & machineCode);
+
+private:
+	IdentifierNode* mIdentifierNode;
+	ExpressionNode* mExpressionNode;
+
+};
+
+
 class IfStatementNode : public StatementNode {
 
 public:

@@ -155,6 +155,59 @@ void AssignmentStatementNode::Code(InstructionsClass& machineCode) {
 	int index = mIdentifierNode->GetIndex();
 	machineCode.PopAndStore(index);
 }
+
+// PLUS EQUAL STATEMENT NODE
+PlusEqualStatementNode::PlusEqualStatementNode(IdentifierNode* identifierNode, ExpressionNode* expressionNode){
+	mIdentifierNode = identifierNode;
+	mExpressionNode = expressionNode;
+}
+
+PlusEqualStatementNode::~PlusEqualStatementNode() {
+	delete mIdentifierNode;
+	delete mExpressionNode;
+	MSG("Destructing Statement Assignment Statement Node...");
+}
+
+void PlusEqualStatementNode::Interpret() {
+	int addValue = mExpressionNode->Evaluate();
+	int currentValue = mIdentifierNode->Evaluate();
+	mIdentifierNode->SetValue(currentValue + addValue);
+}
+
+void PlusEqualStatementNode::Code(InstructionsClass& machineCode) {
+	int index = mIdentifierNode->GetIndex();
+	machineCode.PushValue(index);
+	mExpressionNode->CodeEvaluate(machineCode);
+	machineCode.PopPopAddPush();
+	machineCode.PopAndStore(index);
+}
+
+// MINUS EQUAL STATEMENT NODE
+MinusEqualStatementNode::MinusEqualStatementNode(IdentifierNode* identifierNode, ExpressionNode* expressionNode){
+	mIdentifierNode = identifierNode;
+	mExpressionNode = expressionNode;
+}
+
+MinusEqualStatementNode::~MinusEqualStatementNode() {
+	delete mIdentifierNode;
+	delete mExpressionNode;
+	MSG("Destructing Statement Assignment Statement Node...");
+}
+
+void MinusEqualStatementNode::Interpret() {
+	int addValue = mExpressionNode->Evaluate();
+	int currentValue = mIdentifierNode->Evaluate();
+	mIdentifierNode->SetValue(currentValue - addValue);
+}
+
+void MinusEqualStatementNode::Code(InstructionsClass& machineCode) {
+	int index = mIdentifierNode->GetIndex();
+	machineCode.PushValue(index);
+	mExpressionNode->CodeEvaluate(machineCode);
+	machineCode.PopPopSubPush();
+	machineCode.PopAndStore(index);
+}
+
 // IF STATMENT NODE
 IfStatementNode::IfStatementNode(ExpressionNode* expressionNode, BlockNode* ifBlockNode, BlockNode* elseBlockNode) {
 	mExpressionNode = expressionNode;
@@ -230,8 +283,13 @@ CoutStatementNode::~CoutStatementNode() {
 
 void CoutStatementNode::Interpret() {
 	for (int i = 0; i < mExpressionNodes.size(); i++) {
-		int value = mExpressionNodes[i]->Evaluate();
-		std::cout << value;
+		if (mExpressionNodes[i] != NULL) {
+			int value = mExpressionNodes[i]->Evaluate();
+			std::cout << value;
+		}
+		else {
+			std::cout << std::endl;
+		}
 	}
 }
 
