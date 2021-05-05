@@ -35,6 +35,7 @@ StateMachineClass::StateMachineClass() {
 	
 	// MULTIPLICATION //
 	mLegalMoves[START_STATE][TIMES_CHAR] = MULTIPLICATION_STATE;
+	mLegalMoves[MULTIPLICATION_STATE][ASSIGNMENT_CHAR] = TIMESEQUAL_STATE;
 
 	// EXPONENTIATION //
 	mLegalMoves[MULTIPLICATION_STATE][TIMES_CHAR] = EXP_STATE;
@@ -145,6 +146,7 @@ StateMachineClass::StateMachineClass() {
 	mCorrespondingTokenTypes[SUBTRACTION_STATE] =	MINUS_TOKEN;
 	mCorrespondingTokenTypes[MINUSEQUAL_STATE] =	MINUSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[MULTIPLICATION_STATE] = TIMES_TOKEN;
+	mCorrespondingTokenTypes[TIMESEQUAL_STATE] = TIMESEQUAL_TOKEN;
 	mCorrespondingTokenTypes[EXP_STATE] =			EXP_TOKEN;
 	mCorrespondingTokenTypes[DIVISION_STATE] =		DIVIDE_TOKEN;
 	mCorrespondingTokenTypes[ENDFILE_STATE] =		ENDFILE_TOKEN;
@@ -190,6 +192,8 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = MINUSEQUAL_CHAR;
 	if (currentCharacter == '*')
 		charType = TIMES_CHAR;
+	if (currentCharacter == '*=')
+		charType = TIMESEQUAL_CHAR;
 	if (currentCharacter == '**')
 		charType = EXP_CHAR;
 	if (currentCharacter == '/')
@@ -202,6 +206,8 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType &co
 		charType = LESS_CHAR;
 	if (currentCharacter == '=')
 		charType = ASSIGNMENT_CHAR;
+	if (currentCharacter == '==')
+		charType = EQUAL_CHAR;
 	if (currentCharacter == '!')
 		charType = EXCLAMATION_CHAR;
 	if (currentCharacter == '(')

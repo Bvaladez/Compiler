@@ -156,6 +156,34 @@ void AssignmentStatementNode::Code(InstructionsClass& machineCode) {
 	machineCode.PopAndStore(index);
 }
 
+// TIMES EQUAL STATEMENT NODE
+TimesEqualStatementNode::TimesEqualStatementNode(IdentifierNode* identifierNode, ExpressionNode* expressionNode){
+	mIdentifierNode = identifierNode;
+	mExpressionNode = expressionNode;
+}
+
+TimesEqualStatementNode::~TimesEqualStatementNode() {
+	delete mIdentifierNode;
+	delete mExpressionNode;
+	MSG("Destructing Statement Assignment Statement Node...");
+}
+
+void TimesEqualStatementNode::Interpret() {
+	int mulValue = mExpressionNode->Evaluate();
+	int currentValue = mIdentifierNode->Evaluate();
+	mIdentifierNode->SetValue(currentValue * mulValue);
+}
+
+void TimesEqualStatementNode::Code(InstructionsClass& machineCode) {
+	int index = mIdentifierNode->GetIndex();
+	mIdentifierNode->CodeEvaluate(machineCode);
+	mExpressionNode->CodeEvaluate(machineCode);
+	machineCode.PopPopMulPush();
+	machineCode.PopAndStore(index);
+}
+
+
+
 // PLUS EQUAL STATEMENT NODE
 PlusEqualStatementNode::PlusEqualStatementNode(IdentifierNode* identifierNode, ExpressionNode* expressionNode){
 	mIdentifierNode = identifierNode;
@@ -238,6 +266,39 @@ void IfStatementNode::Code(InstructionsClass& machineCode) {
 	unsigned char* address2 = machineCode.GetAddress();
 	machineCode.SetOffset(InsertAddress, (int)(address2 - address1));
 }
+
+// DO WHILE STATEMENT NODE
+DoWhileStatementNode::DoWhileStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode) {
+	mExpressionNode = expressionNode;
+	mBlockNode = blockNode;
+}
+
+DoWhileStatementNode::~DoWhileStatementNode() {
+	delete mExpressionNode;
+	MSG("Destructing Statement While Statement Node...");
+}
+
+void DoWhileStatementNode::Interpret() {
+	mBlockNode->Interpret();
+	while (mExpressionNode->Evaluate() == 1) {
+		mBlockNode->Interpret();
+	}
+}
+
+void DoWhileStatementNode::Code(InstructionsClass& machineCode) {
+	// DO WHILE LOOP
+	unsigned char* address1 = machineCode.GetAddress();
+	mBlockNode->Code(machineCode);
+	mExpressionNode->CodeEvaluate(machineCode);
+	unsigned char* InsertAddressToSkip = machineCode.SkipIfZeroStack();
+	unsigned char* address2 = machineCode.GetAddress();
+	unsigned char* InsertAddressToJump = machineCode.Jump();
+	unsigned char* address3 = machineCode.GetAddress();
+	machineCode.SetOffset(InsertAddressToSkip, (int)(address3 - address2));
+	machineCode.SetOffset(InsertAddressToJump, (int)(address1 - address3));
+
+}
+
 
 // WHILE STATEMENT NODE
 WhileStatementNode::WhileStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode) {
@@ -323,6 +384,31 @@ int IntegerNode::Evaluate() {
 void IntegerNode::CodeEvaluate(InstructionsClass& machineCode) {
 	machineCode.PushValue(mInteger);
 }
+
+// TRUE NODE
+TrueNode::TrueNode() {
+}
+
+int TrueNode::Evaluate() {
+	return 1;
+}
+
+void TrueNode::CodeEvaluate(InstructionsClass& machineCode) {
+	machineCode.PushValue(1);
+}
+
+// FALSE NODE
+FalseNode::FalseNode() {
+}
+
+int FalseNode::Evaluate() {
+	return 0;
+}
+
+void FalseNode::CodeEvaluate(InstructionsClass& machineCode) {
+	machineCode.PushValue(0);
+}
+
 
 // IDENTIFIER NODE
 

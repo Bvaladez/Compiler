@@ -35,6 +35,22 @@ void TokenClass::CheckReserved() {
 	else if (lexeme == "while") {
 		mType = TokenType::WHILE_TOKEN;
 	}
+	else if (lexeme == "do") {
+		mType = TokenType::DO_TOKEN;
+	}
+	else if (lexeme == "true") {
+		mType = TokenType::TRUE_TOKEN;
+	}
+	else if (lexeme == "false") {
+		mType = TokenType::FALSE_TOKEN;
+	}
+	else if (lexeme == "and") {
+		mType = TokenType::AND_TOKEN;
+	}
+	else if (lexeme == "or") {
+		mType = TokenType::OR_TOKEN;
+	}
+
 	return;
 }
 

@@ -1,8 +1,29 @@
 void main(){
-	int var;
-	var = 20;
-	while ( var > 0 ){
-		cout << var << endl;	
-		var = var - 1;
+	int a = 6;
+	a *= 2;
+	cout << a << endl;
+
+	if( 1 != 2 && 2 != 2){
+		cout << 10 << endl;
 	}
+
+	if( 1 != 2 and 2 != 2){
+		cout << 10 << endl;
+	}
+
+	if (1 != 2 || 2 != 2){
+		cout << 5 << endl;
+	}
+
+	if (1 != 2 or 2 != 2){
+		cout << 5 << endl;
+	}
+
+	int count = 20;
+	do{
+		count -= 5;	
+		cout << count << endl;
+	}
+	while(count > 0);
+
 }

@@ -19,6 +19,7 @@ public:
 	DeclarationStatementNode * DeclarationStatement();
 	StatementNode * AssignmentStatement();
 	IfStatementNode* IfStatement();
+	DoWhileStatementNode * DoWhileStatement();
 	WhileStatementNode * WhileStatement();
 	CoutStatementNode * CoutStatement();
 	ExpressionNode * Expression();
@@ -32,6 +33,8 @@ public:
 	ExpressionNode * Exponent();
 	ExpressionNode * Factor();
 	IntegerNode * Integer();
+	TrueNode* True();
+	FalseNode* False();
 	IdentifierNode * Identifier();
 
 	TokenClass Match(TokenType expectedType);

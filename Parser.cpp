@@ -75,6 +75,10 @@ StatementNode * ParserClass::Statement() {
 		StatementNode* ws = WhileStatement();
 		return ws;
 	}
+	else if (tt == DO_TOKEN) {
+		StatementNode* dws = DoWhileStatement();
+		return dws;
+	}
 	else {
 		return NULL;
 	}
@@ -228,8 +232,17 @@ ExpressionNode * ParserClass::Factor() {
 		return current;
 	}
 	else if (tt == LPAREN_TOKEN) {
+		Match(LPAREN_TOKEN);
 		current = Expression();
 		Match(RPAREN_TOKEN);
+		return current;
+	}
+	else if (tt = TRUE_TOKEN) {
+		current = True();
+		return current;
+	}
+	else if (tt = FALSE_TOKEN) {
+		current = False();
 		return current;
 	}
 	else {
@@ -253,6 +266,19 @@ IntegerNode * ParserClass::Integer() {
 	IntegerNode * in =  new IntegerNode(tokenInt);
 	return in;
 }
+
+TrueNode* ParserClass::True() {
+	TokenClass token = Match(TRUE_TOKEN);
+	TrueNode* tn = new TrueNode();
+	return tn;
+}
+
+FalseNode* ParserClass::False() {
+	TokenClass token = Match(FALSE_TOKEN);
+	FalseNode* fn = new FalseNode();
+	return fn;
+}
+
 
 DeclarationStatementNode * ParserClass::DeclarationStatement() {
 	Match(INT_TOKEN);
@@ -299,6 +325,14 @@ StatementNode * ParserClass::AssignmentStatement() {
 		MinusEqualStatementNode* mesn = new MinusEqualStatementNode(in, exp);
 		return mesn;
 	}
+	else if (tt == TokenType::TIMESEQUAL_TOKEN) {
+		Match(TIMESEQUAL_TOKEN);
+		ExpressionNode* exp = Expression();
+		Match(SEMICOLON_TOKEN);
+
+		TimesEqualStatementNode* tesn = new TimesEqualStatementNode(in, exp);
+		return tesn;
+	}
 
 }
 
@@ -316,6 +350,18 @@ IfStatementNode* ParserClass::IfStatement() {
 	}
 	IfStatementNode* isn = new IfStatementNode(exp, ibn, NULL);
 	return isn;
+}
+
+DoWhileStatementNode* ParserClass::DoWhileStatement() {
+	Match(DO_TOKEN);
+	BlockNode* bn = Block();
+	Match(WHILE_TOKEN);
+	Match(LPAREN_TOKEN);
+	ExpressionNode* exp = Expression();
+	Match(RPAREN_TOKEN);
+	Match(SEMICOLON_TOKEN);
+	DoWhileStatementNode* dwsn = new DoWhileStatementNode(exp, bn);
+	return dwsn;
 }
 
 WhileStatementNode* ParserClass::WhileStatement() {

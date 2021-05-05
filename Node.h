@@ -138,6 +138,22 @@ private:
 
 };
 
+class TimesEqualStatementNode : public StatementNode {
+
+public:
+	TimesEqualStatementNode(IdentifierNode* indentifierNode, ExpressionNode* expressionNode);
+	~TimesEqualStatementNode();
+	void Interpret();
+	void Code(InstructionsClass & machineCode);
+
+private:
+	IdentifierNode* mIdentifierNode;
+	ExpressionNode* mExpressionNode;
+
+};
+
+
+
 class PlusEqualStatementNode : public StatementNode {
 
 public:
@@ -194,6 +210,20 @@ private:
 	BlockNode* mBlockNode;
 };
 
+class DoWhileStatementNode : public StatementNode {
+
+public:
+	DoWhileStatementNode(ExpressionNode* expressionNode, BlockNode* blockNode);
+	~DoWhileStatementNode();
+	void Interpret();
+	void Code(InstructionsClass & machineCode);
+
+private:
+	ExpressionNode* mExpressionNode;
+	BlockNode* mBlockNode;
+};
+
+
 class CoutStatementNode : public StatementNode {
 
 public:
@@ -223,6 +253,24 @@ public:
 
 private:
 	int mInteger;
+};
+
+class TrueNode : public ExpressionNode {
+public:
+	TrueNode();
+	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
+private:
+};
+
+class FalseNode : public ExpressionNode {
+public:
+	FalseNode();
+	virtual int Evaluate();
+	virtual void CodeEvaluate(InstructionsClass& machineCode);
+
+private:
 };
 
 class IdentifierNode : public ExpressionNode {

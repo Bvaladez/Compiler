@@ -57,7 +57,12 @@ void Interpret(std::string inputFile) {
 }
 
 int main() {
-	//Interpret("testPE.txt");
-	CodeAndExecute("testCoding.txt");
+	Interpret("test.txt");
+	std::cout << "============ NOW CODING ==============" << std::endl;
+	CodeAndExecute("test.txt");
+
+	//Interpret("testCoding.txt");
+	//CodeAndExecute("testCoding.txt");
+
 }
 
